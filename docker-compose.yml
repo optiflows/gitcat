@@ -1,0 +1,12 @@
+version: "2"
+
+services:
+    gitcat:
+        container_name: gitcat
+        build: ./
+        command: -c conf/conf.json --logging DEBUG
+        ports:
+            - 8080:80
+            - 8055:8055
+        volumes:
+            - ./:/home/
