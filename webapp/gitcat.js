@@ -1,10 +1,6 @@
-/*
- * Angular application
- */
+var app = angular.module('gitcat', ['ngRoute', 'ngCookies', 'ngMaterial', 'ngMdIcons']);
 
-var app = angular.module("gitcat", ["ngMaterial", "ngMdIcons"]);
-
-app.config(["$httpProvider", function ($httpProvider) {
+app.config(['$httpProvider', function ($httpProvider) {
     // Disable cross origin OPTIONS requests
     $httpProvider.defaults.headers.common = {};
     $httpProvider.defaults.headers.post = {};
@@ -13,29 +9,20 @@ app.config(["$httpProvider", function ($httpProvider) {
     $httpProvider.defaults.withCredentials = true;
 }]);
 
+app.config(['$routeProvider', function($routeProvider) {
+    $routeProvider
+    .when('/', {
+        controller: 'mainCtrl',
+        controllerAs: 'mainCtrl',
+        templateUrl: 'templates/main.html'
+    })
+    .when('/auth', {
+        controller: 'authCtrl',
+        controllerAs: 'authCtrl',
+        templateUrl: 'templates/auth.html'
+    });
+}]);
 
-/*
- * Models
- */
+app.controller('mainCtrl', mainCtrl);
+app.controller('authCtrl', authCtrl);
 
-
-
-/*
- * Main controller
- */
-
-app.controller("mainCtrl", function($scope, $http, $location) {
-    var api = $location.protocol() + "://" + $location.host() + ":8055";
-
-    // Private methods
-
-    var test = function() {
-        return "test";
-    };
-
-    // Public methods
-
-    $scope.hello = function() {
-        $scope.hello = "hello";
-    };
-});

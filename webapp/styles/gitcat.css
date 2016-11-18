@@ -1,0 +1,30 @@
+body {
+    font-family: 'Roboto', 'Helvetica Neue', sans-serif;
+    background-color: #dfb8b8;
+}
+
+.main {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    min-height: 400px;
+    align-items: center;
+    justify-content: center;
+}
+
+.main .logo img {
+    margin-top: -150px;
+    width: 235px;
+    height: 207px;
+}
+
+.main span.title {
+    margin: 20px;
+    color: white;
+    font-size: 60px;
+    text-shadow: rgb(46, 46, 46) 0 4px 5px;
+}
+
+.main button svg {
+    fill: black;
+}

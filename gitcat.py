@@ -4,6 +4,7 @@ from nyuki.capabilities import Response
 from aiohttp_cors import ResourceOptions, setup as cors_setup
 
 from webapp import Webapp
+from github import Github
 
 
 log = logging.getLogger(__name__)
@@ -15,15 +16,12 @@ class Gitcat(Nyuki):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
         self.webapp = Webapp(self.loop)
+        self.github = None
 
     async def setup(self):
-        # Enable cors capabilities for the api routes
         self._enable_cors()
-
-        # Start the webapp
-        web_host = self.config['webapp']['host']
-        web_port = self.config['webapp']['port']
-        await self.webapp.build(WEBAPP_PATH, web_host, web_port)
+        await self.webapp.build(WEBAPP_PATH, **self.config['webapp'])
+        self.github = Github(**self.config['github'])
 
     def _enable_cors(self):
         app = self.api._api._app
@@ -37,11 +35,22 @@ class Gitcat(Nyuki):
         for route in self.api._api.router.routes():
             cors.add(route)
 
-    @resource(endpoint='/login', version='v1')
+    @resource(endpoint='/auth', version='v1')
     class Authentication:
 
-        def get(self, request):
-            return Response(status=200)
+        async def post(self, request):
+            """
+            Request authentication URL to Github.
+            """
+            url = self.github.auth()
+            return Response({'url': url})
+
+        async def get(self, request):
+            """
+            Authentication request callback.
+            """
+            token = self.github.token(**request)
+            return Response({'token': token})
 
 
 if __name__ == '__main__':

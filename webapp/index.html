@@ -1,22 +1,28 @@
 <!DOCTYPE html>
-<html lang="fr" ng-app="gitcat">
+<html lang="fr">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width">
     <title>Gitcat</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700,400italic">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/angular-material/1.0.5/angular-material.css">
-    <link rel="stylesheet" href="./gitcat.css">
+    <link rel="stylesheet" href="./styles/gitcat.css">
 </head>
-<body ng-controller="mainCtrl" layout="column">
+<body ng-app="gitcat">
 
-    <!-- TODO -->
+    <div ng-view></div>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.3.0/lodash.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.5.0/angular.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.5.0/angular-aria.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.5.0/angular-cookies.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.5.0/angular-route.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.5.0/angular-animate.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/angular-material/1.0.5/angular-material.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/angular-material-icons/0.6.0/angular-material-icons.min.js"></script>
+    <script src="./utils.js"></script>
+    <script src="./controllers/main.js"></script>
+    <script src="./controllers/auth.js"></script>
     <script src="./gitcat.js"></script>
 </body>
 </html>
