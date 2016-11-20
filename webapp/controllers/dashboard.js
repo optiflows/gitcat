@@ -1,22 +1,57 @@
-function dashboardCtrl($routeParams, $cookies, $http) {
-    var cookies = $cookies.get('gitcat');
+function dashboardCtrl($cookies, $http) {
 
-    console.log($routeParams);
+    /*
+     * Controller attributes
+     */
 
-    // var token = null;
-    // if(!cookies) {
-    //     var code = $routeParams.code;
-    //     var state = $routeParams.state;
-    //     var path = '/v1/auth?code=' + code + '&state=' + state;
-    //
-    //     $http.get(api + path).then(function(res) {
-    //         token = res.data.token;
-    //         $cookies.put('gitcat', {'token': token});
-    //     }).catch(function(err) {
-    //         console.error(err);
-    //     });
-    // } else {
-    //     token = cookies.token;
-    // }
-    // this.token = token;
+    const ORG = 'optiflows';
+    const API = 'https://api.github.com';
+    const TOKEN = $cookies.get('gitcat');
+    const MANIFEST = 'optiflows/devenv';
+
+    var self = this;
+    this.repos = [];
+
+
+    /*
+     * Controller methods
+     */
+
+    this.request = function(path) {
+        return $http({
+            method: 'GET',
+            url: API + path,
+            headers: {'Authorization': 'token ' + TOKEN}
+        });
+    };
+
+
+    /*
+     * Entrypoint
+     */
+
+    var loadRepos = function(manifest) {
+        manifest = jsyaml.load(manifest);
+        var repos = [];
+
+        for(var alias in manifest) {
+            var names = manifest[alias]['repositories'];
+            repos = _.union(repos, names);
+        }
+
+        self.repos = repos;
+    };
+
+    var getRepos = function() {
+        var path = '/repos/' + MANIFEST + '/contents/gitprojects.yml';
+
+        self.request(path).then(function(res) {
+            var url = res.data['download_url'];
+            $http.get(url).then(function(res) { loadRepos(res.data); });
+        }).catch(function(err) {
+            console.error(err);
+        });
+    };
+
+    getRepos();
 }

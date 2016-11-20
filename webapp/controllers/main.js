@@ -1,4 +1,4 @@
-function mainCtrl($http, $window, $routeParams) {
+function mainCtrl($http, $window, $routeParams, $cookies, $location) {
 
     /*
      * Controller attributes
@@ -22,7 +22,8 @@ function mainCtrl($http, $window, $routeParams) {
     this.authenticate = function(state, code) {
         var data = {state: state, code: code};
         $http.patch(this.api, data).then(function(res) {
-            console.log(res.data.token);
+            $cookies.put('gitcat', res.data.token);
+            $location.url('/dashboard');
         }).catch(function(err) {
             console.error(err);
         });
