@@ -16,13 +16,13 @@ app.config(['$routeProvider', function($routeProvider) {
         controllerAs: 'mainCtrl',
         templateUrl: 'templates/main.html'
     })
-    .when('/auth', {
-        controller: 'authCtrl',
-        controllerAs: 'authCtrl',
-        templateUrl: 'templates/auth.html'
+    .when('/dashboard', {
+        controller: 'dashboardCtrl',
+        controllerAs: 'dashboardCtrl',
+        templateUrl: 'templates/dashboard.html'
     });
 }]);
 
 app.controller('mainCtrl', mainCtrl);
-app.controller('authCtrl', authCtrl);
+app.controller('dashboardCtrl', dashboardCtrl);
 

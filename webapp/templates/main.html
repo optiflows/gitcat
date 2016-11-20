@@ -3,8 +3,14 @@
         <img src="../images/gitcat.png"/>
     </div>
     <span class="title">Gitcat</span>
-    <md-button ng-click="mainCtrl.signin()">
+
+    <md-button ng-click="mainCtrl.signin()" ng-disabled="mainCtrl.requesting">
         <md-icon md-svg-src="../images/github.svg"></md-icon>
-        Signin with Github
+        <span ng-if="!mainCtrl.requesting">
+            Signin with Github
+        </span>
+        <span ng-if="mainCtrl.requesting">
+            Signing in...
+        </span>
     </md-button>
 </div>

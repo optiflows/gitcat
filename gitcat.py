@@ -32,7 +32,7 @@ class Gitcat(object):
 
     def run(self):
         setup_cors(self.web)
-        self.web.router.add_route('*', '/auth', ApiAuth)
+        self.web.router.add_route('*', '/api/auth', ApiAuth)
         self.web.router.add_static('/', path='./webapp/')
         run_app(self.web, port=80)
 

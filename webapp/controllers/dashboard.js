@@ -1,8 +1,6 @@
-function authCtrl($routeParams, $cookies, $http) {
+function dashboardCtrl($routeParams, $cookies, $http) {
     var cookies = $cookies.get('gitcat');
 
-    console.log($routeParams.code);
-    console.log($routeParams.state);
     console.log($routeParams);
 
     // var token = null;
