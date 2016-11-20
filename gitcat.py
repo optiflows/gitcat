@@ -1,58 +1,42 @@
+import os
 import logging
-from nyuki import Nyuki, resource
-from nyuki.capabilities import Response
-from aiohttp_cors import ResourceOptions, setup as cors_setup
+import asyncio
+from aiohttp.web import Application, run_app
+from aiohttp_index import IndexMiddleware
+from aiohttp_cors import setup as setup_cors
 
-from webapp import Webapp
+import runtime
+from api import ApiAuth
 from github import Github
 
 
 log = logging.getLogger(__name__)
-WEBAPP_PATH = './webapp/'
 
 
-class Gitcat(Nyuki):
+class Gitcat(object):
 
-    def __init__(self, **kwargs):
-        super().__init__(**kwargs)
-        self.webapp = Webapp(self.loop)
-        self.github = None
+    def __init__(self):
+        # Asyncio loop
+        self.loop = asyncio.get_event_loop()
 
-    async def setup(self):
-        self._enable_cors()
-        await self.webapp.build(WEBAPP_PATH, **self.config['webapp'])
-        self.github = Github(**self.config['github'])
+        # Web application (statics and API routes)
+        self.web = Application(middlewares=[IndexMiddleware()])
 
-    def _enable_cors(self):
-        app = self.api._api._app
-        cors = cors_setup(app, defaults={
-            "*": ResourceOptions(
-                allow_credentials=True,
-                expose_headers="*",
-                allow_headers="*",
-            )
-        })
-        for route in self.api._api.router.routes():
-            cors.add(route)
+        # Github intergration
+        try:
+            key = os.environ['GITHUB_APP_KEY']
+            secret = os.environ['GITHUB_APP_SECRET']
+        except KeyError:
+            raise EnvironmentError("Github application credentials aren't set")
+        runtime.github = Github(key, secret, loop=self.loop)
 
-    @resource(endpoint='/auth', version='v1')
-    class Authentication:
-
-        async def post(self, request):
-            """
-            Request authentication URL to Github.
-            """
-            url = self.github.auth()
-            return Response({'url': url})
-
-        async def get(self, request):
-            """
-            Authentication request callback.
-            """
-            token = self.github.token(**request)
-            return Response({'token': token})
+    def run(self):
+        setup_cors(self.web)
+        self.web.router.add_route('*', '/auth', ApiAuth)
+        self.web.router.add_static('/', path='./webapp/')
+        run_app(self.web, port=80)
 
 
 if __name__ == '__main__':
-    nyuki = Gitcat()
-    nyuki.start()
+    backend = Gitcat()
+    backend.run()

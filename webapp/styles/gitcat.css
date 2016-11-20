@@ -6,14 +6,13 @@ body {
 .main {
     display: flex;
     flex-direction: column;
-    height: 100vh;
+    height: 75vh;
     min-height: 400px;
     align-items: center;
     justify-content: center;
 }
 
 .main .logo img {
-    margin-top: -150px;
     width: 235px;
     height: 207px;
 }

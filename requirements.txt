@@ -1,3 +1,4 @@
-aiohttp_cors>=0.3,<0.4
-nyuki>=0.16,<0.17
+aiohttp>=1.1,<1.2
+aiohttp_cors>=0.5,<0.6
+aiohttp-index>=0.1,<0.2
 python-social-auth>=0.2,<0.3

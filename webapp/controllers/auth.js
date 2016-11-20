@@ -1,5 +1,4 @@
-function authCtrl($routeParams, $location, $cookies, $http) {
-    var api = $location.protocol() + '://' + $location.host() + ':17098';
+function authCtrl($routeParams, $cookies, $http) {
     var cookies = $cookies.get('gitcat');
 
     console.log($routeParams.code);

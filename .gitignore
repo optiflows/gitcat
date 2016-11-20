@@ -44,9 +44,6 @@ nosetests.xml
 coverage.xml
 *,cover
 
-dist
-node_modules
 .DS_Store
-bower_components
 .idea/
-conf/
+config.env
