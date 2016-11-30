@@ -3,17 +3,17 @@ var app = angular.module('gitcat', ['ngRoute', 'ngCookies', 'ngMaterial', 'ngMdI
 app.config(['$routeProvider', function($routeProvider) {
     $routeProvider
     .when('/', {
-        controller: 'mainCtrl',
-        controllerAs: 'mainCtrl',
+        controller: 'MainCtrl',
+        controllerAs: 'self',
         templateUrl: 'templates/main.html'
     })
     .when('/dashboard', {
-        controller: 'dashboardCtrl',
-        controllerAs: 'dashboardCtrl',
+        controller: 'DashboardCtrl',
+        controllerAs: 'self',
         templateUrl: 'templates/dashboard.html'
     });
 }]);
 
-app.controller('mainCtrl', mainCtrl);
-app.controller('dashboardCtrl', dashboardCtrl);
+app.controller('MainCtrl', MainCtrl);
+app.controller('DashboardCtrl', DashboardCtrl);
 

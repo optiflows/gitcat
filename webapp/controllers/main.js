@@ -1,4 +1,4 @@
-function mainCtrl($http, $window, $routeParams, $cookies, $location) {
+function MainCtrl($http, $window, $routeParams, $cookies, $location) {
 
     /*
      * Controller attributes

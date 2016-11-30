@@ -1,4 +1,4 @@
-function dashboardCtrl($cookies, $http) {
+function DashboardCtrl($cookies, $http) {
 
     /*
      * Controller attributes
@@ -10,14 +10,15 @@ function dashboardCtrl($cookies, $http) {
     const MANIFEST = 'optiflows/devenv';
 
     var self = this;
-    this.repos = [];
+    self.user = {};
+    self.repos = [];
 
 
     /*
      * Controller methods
      */
 
-    this.request = function(path) {
+    self.request = function(path) {
         return $http({
             method: 'GET',
             url: API + path,
@@ -29,6 +30,15 @@ function dashboardCtrl($cookies, $http) {
     /*
      * Entrypoint
      */
+
+    var getUser = function() {
+        self.request('/user').then(function(res) {
+            self.user = res.data;
+            console.log(self.user);
+        }).catch(function(err) {
+            console.error(err);
+        });
+    };
 
     var loadRepos = function(manifest) {
         manifest = jsyaml.load(manifest);
@@ -53,5 +63,6 @@ function dashboardCtrl($cookies, $http) {
         });
     };
 
+    getUser();
     getRepos();
 }

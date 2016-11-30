@@ -1,14 +1,15 @@
+<div class="header">
+    <div class="user">
+        <a href="{{ self.user.html_url }}" class="avatar">
+            <img src="{{ self.user.avatar_url }}"/>
+            <span>{{ self.user.login }}</span>
+        </a>
+    </div>
+    <div class="summary">
+
+    </div>
+</div>
+
 <div class="dashboard">
-    <div class="header">
-        <div class="summary">
-
-        </div>
-        <div class="user">
-
-        </div>
-    </div>
-    <div class="body">
-
-        
-    </div>
+    Repos: {{ self.repos }}
 </div>

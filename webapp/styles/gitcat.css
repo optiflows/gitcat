@@ -3,6 +3,26 @@ body {
     background-color: #dfb8b8;
 }
 
+a {
+    text-decoration: none;
+}
+
+/*
+ * Header
+ */
+
+.header .user .avatar img {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    border: solid 2px #ffffff;
+}
+
+.header .user .avatar span {
+    color: #ffffff;
+}
+
+
 /*
  * Main page
  */
