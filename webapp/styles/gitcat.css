@@ -7,6 +7,12 @@ a {
     text-decoration: none;
 }
 
+*[role=button] {
+    cursor: pointer;
+    outline: none;
+}
+
+
 /*
  * Header
  */

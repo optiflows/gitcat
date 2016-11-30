@@ -1,9 +1,9 @@
 <div class="header">
     <div class="user">
-        <a href="{{ self.user.html_url }}" class="avatar">
+        <div class="avatar" ng-click="self.href(self.user.html_url)" layout="row" layout-align="center center">
             <img src="{{ self.user.avatar_url }}"/>
             <span>{{ self.user.login }}</span>
-        </a>
+        </div>
     </div>
     <div class="summary">
 

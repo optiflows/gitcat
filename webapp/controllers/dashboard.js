@@ -1,4 +1,4 @@
-function DashboardCtrl($cookies, $http) {
+function DashboardCtrl($cookies, $http, $window) {
 
     /*
      * Controller attributes
@@ -17,6 +17,10 @@ function DashboardCtrl($cookies, $http) {
     /*
      * Controller methods
      */
+
+    self.href = function(url) {
+        $window.location.href = url;
+    };
 
     self.request = function(path) {
         return $http({

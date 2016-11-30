@@ -4,12 +4,12 @@
     </div>
     <span class="title">Gitcat</span>
 
-    <md-button ng-click="mainCtrl.signin()" ng-disabled="mainCtrl.requesting">
+    <md-button ng-click="self.signin()" ng-disabled="self.requesting">
         <md-icon md-svg-src="../images/github.svg"></md-icon>
-        <span ng-if="!mainCtrl.requesting">
+        <span ng-if="!self.requesting">
             Signin with Github
         </span>
-        <span ng-if="mainCtrl.requesting">
+        <span ng-if="self.requesting">
             Signing in...
         </span>
     </md-button>
