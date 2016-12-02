@@ -81,4 +81,39 @@ a {
  * Dashboard page
  */
 
+.dashboard .summary {
+    background-color: #ded1c1;
+    height: 215px;
+    border-bottom: solid 8px #7b655a;
+}
 
+.dashboard .summary div {
+    width: 50%;
+}
+
+.dashboard .summary .metric {
+    display: flex;
+    flex-direction: column;
+    margin-top: 5px;
+}
+
+.dashboard .summary .metric span:first-child {
+    background-color: #907f75;
+    width: 125px;
+    height: 125px;
+    border-radius: 50%;
+    margin: auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #ffffff;
+    font-size: 50px;
+}
+
+.dashboard .summary .metric span:last-child {
+    display: flex;
+    justify-content: center;
+    margin-top: 15px;
+    color: #907f75;
+    font-size: 20px;
+}

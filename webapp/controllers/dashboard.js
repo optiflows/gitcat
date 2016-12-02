@@ -73,6 +73,6 @@ function DashboardCtrl($cookies, $http, $window) {
         });
     };
 
-    getUser();
-    getRepos();
+    // getUser();
+    // getRepos();
 }

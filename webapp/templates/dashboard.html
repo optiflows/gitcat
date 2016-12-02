@@ -1,4 +1,4 @@
-<md-toolbar class="header">
+<md-toolbar class="header md-whiteframe-6dp">
     <div class="md-toolbar-tools" layout="row" layout-align="space-between center">
         <img class="logo" src="../images/gitcat.png"/>
         <md-autocomplete class="search"
@@ -22,9 +22,23 @@
 </md-toolbar>
 
 <div class="dashboard">
-    <div class="summary">
+    <div class="summary" layout="row" layout-align="center center">
+        <div layout="row" layout-align="space-around center">
+            <div class="metric">
+                <span class="md-whiteframe-1dp">{{self.repos.length || 0}}</span>
+                <span>Repositories</span>
+            </div>
+            <div class="metric">
+                <span class="md-whiteframe-1dp">12</span>
+                <span>Outdated</span>
+            </div>
+            <div class="metric">
+                <span class="md-whiteframe-1dp">6</span>
+                <span>Not versioned</span>
+            </div>
+        </div>
+    </div>
+    <div class="list">
 
     </div>
-
-    Repos: {{ self.repos }}
 </div>
