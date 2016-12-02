@@ -1,15 +1,30 @@
-<div class="header">
-    <div class="user">
-        <div class="avatar" ng-click="self.href(self.user.html_url)" layout="row" layout-align="center center">
+<md-toolbar class="header">
+    <div class="md-toolbar-tools" layout="row" layout-align="space-between center">
+        <img class="logo" src="../images/gitcat.png"/>
+        <md-autocomplete class="search"
+            md-selected-item="self.selected"
+            md-search-text="self.search"
+            md-items="repo in self.query(self.search)"
+            md-item-text="repo"
+            placeholder="Filter by repository">
+            <md-item-template>
+                <span md-highlight-text="self.search" md-highlight-flags="^i">{{repo}}</span>
+            </md-item-template>
+            <md-not-found>
+                No repository matching "{{self.search}}" were found.
+            </md-not-found>
+        </md-autocomplete>
+        <md-button class="user md-fab md-mini" ng-click="self.href(self.user.html_url)">
+            <md-tooltip md-direction="left">{{ self.user.login }}</md-tooltip>
             <img src="{{ self.user.avatar_url }}"/>
-            <span>{{ self.user.login }}</span>
-        </div>
+        </md-button>
     </div>
+</md-toolbar>
+
+<div class="dashboard">
     <div class="summary">
 
     </div>
-</div>
 
-<div class="dashboard">
     Repos: {{ self.repos }}
 </div>

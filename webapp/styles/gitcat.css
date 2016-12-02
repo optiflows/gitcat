@@ -17,15 +17,34 @@ a {
  * Header
  */
 
-.header .user .avatar img {
-    width: 32px;
-    height: 32px;
-    border-radius: 50%;
-    border: solid 2px #ffffff;
+.header .md-toolbar-tools {
+    background-color: #5a4439;
 }
 
-.header .user .avatar span {
-    color: #ffffff;
+.header img.logo {
+    margin-top: 42px;
+    display: block;
+    height: 100px;
+    width: auto;
+}
+
+.header .search {
+    width: 35%;
+    background-color: #7b655a;
+}
+
+.header .search input {
+    color: #ded1c1;
+}
+
+.header .user {
+    background-color: #ffffff;
+}
+
+.header .user img {
+    width: 40px;
+    height: 40px;
+    margin-left: -6px;
 }
 
 
@@ -62,11 +81,4 @@ a {
  * Dashboard page
  */
 
-.dashboard {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    height: 100vh;
-    min-height: 250px;
-}
+

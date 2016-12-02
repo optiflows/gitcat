@@ -30,6 +30,12 @@ function DashboardCtrl($cookies, $http, $window) {
         });
     };
 
+    self.query = function(keyword) {
+        return _.filter(self.repos, function(item) {
+            return item.indexOf(keyword) >= 0;
+        });
+    };
+
 
     /*
      * Entrypoint
