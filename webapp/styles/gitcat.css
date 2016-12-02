@@ -14,6 +14,43 @@ a {
 
 
 /*
+ * Scrollbar
+ */
+
+::-webkit-scrollbar,
+::-webkit-scrollbar-button {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #7b655a;
+  border: 0 none #ffffff;
+  border-radius: 50px;
+}
+
+::-webkit-scrollbar-thumb:hover,
+::-webkit-scrollbar-thumb:active {
+  background: #7b655a;
+}
+
+::-webkit-scrollbar-track {
+  background: #dfb8b8;
+  border: 0 none #ffffff;
+  border-radius: 50px;
+}
+
+::-webkit-scrollbar-track:hover,
+::-webkit-scrollbar-track:active {
+  background: #dfb8b8;
+}
+
+::-webkit-scrollbar-corner {
+  background: transparent;
+}
+
+
+/*
  * Header
  */
 
@@ -92,8 +129,6 @@ a {
 }
 
 .dashboard .summary .metric {
-    display: flex;
-    flex-direction: column;
     margin-top: 5px;
 }
 
@@ -133,4 +168,35 @@ a {
     margin: 0;
     padding: 0;
     border-bottom: solid 6px #7b655a;
+}
+
+.dashboard .repos {
+    margin: auto;
+    height: calc(100vh - 286px);
+    width: 100%;
+}
+
+.dashboard .repo {
+    padding: 10px 20px;
+    margin: 3px auto;
+    background-color: #907f75;
+    width: 50%;
+    min-width: 460px;
+}
+
+.dashboard .repo:hover {
+    background-color: #7b655a;
+    cursor: pointer;
+}
+
+.dashboard .repo .name,
+.dashboard .repo .info .version {
+    color: #ffffff;
+    font-size: 18px;
+}
+
+.dashboard .repo .info .since {
+    color: #ded1c1;
+    font-size: 15px;
+    margin-right: 3px;
 }

@@ -56,9 +56,9 @@ function DashboardCtrl($cookies, $http, $window) {
         var done = function() {
             self.loading = ++counter < self.repos.length;
             if(!self.loading) {
-                self.outdated = _.filter(self.diff, function(diff) {
+                self.outdated = _.map(_.filter(self.diff, function(diff) {
                     return diff.ahead_by > 0;
-                });
+                }), 'repository');
                 self.notVersioned = _.filter(self.repos, function(repo) {
                     return !self.diff[repo];
                 });
@@ -110,8 +110,8 @@ function DashboardCtrl($cookies, $http, $window) {
                     repos = _.union(repos, names);
                 }
 
-                // self.repos = ['wings-auth', 'wings-appreminder', 'wings-devenv'];
-                self.repos = repos;
+                self.repos = ['wings-auth', 'nyuki', 'wings-devenv'];
+                //self.repos = repos;
                 loadRepos();
             });
         }).catch(function(err) {

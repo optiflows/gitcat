@@ -21,7 +21,8 @@
     </div>
 </md-toolbar>
 
-<div class="dashboard">
+<div class="dashboard" flex layout="column" layout-align="start stretch">
+    <!-- Metrics -->
     <div class="summary" layout="row" layout-align="center center">
         <div layout="row" layout-align="space-around center">
             <div class="metric">
@@ -38,9 +39,28 @@
             </div>
         </div>
     </div>
+
+    <!-- Load separator -->
     <md-progress-linear class="loading" md-mode="query" ng-show="self.loading"></md-progress-linear>
     <hr ng-hide="self.loading" class="not-loading"/>
-    <div class="list">
 
-    </div>
+    <!-- Repo list -->
+    <md-virtual-repeat-container class="repos" md-top-index="0">
+        <div class="repo" md-virtual-repeat="repo in self.repos">
+            <div class="simple" layout="row" layout-align="space-between center">
+                <span class="name">{{repo}}</span>
+                <div class="info">
+                    <span class="since" ng-if="self.diff[repo] && self.diff[repo].ahead_by">
+                        {{ self.diff[repo].ahead_by }} commits since
+                    </span>
+                    <span class="version">
+                        {{ self.diff[repo] && self.diff[repo].last_tag }}
+                    </span>
+                </div>
+            </div>
+            <div class="details" ng-show="false">
+
+            </div>
+        </div>
+    </md-virtual-repeat-container>
 </div>
