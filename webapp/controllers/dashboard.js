@@ -12,6 +12,10 @@ function DashboardCtrl($cookies, $http, $window) {
     var self = this;
     self.user = {};
     self.repos = [];
+    self.diff = {};
+    self.outdated = [];
+    self.notVersioned = [];
+    self.loading = false;
 
 
     /*
@@ -44,35 +48,77 @@ function DashboardCtrl($cookies, $http, $window) {
     var getUser = function() {
         self.request('/user').then(function(res) {
             self.user = res.data;
-            console.log(self.user);
-        }).catch(function(err) {
-            console.error(err);
         });
     };
 
-    var loadRepos = function(manifest) {
-        manifest = jsyaml.load(manifest);
-        var repos = [];
+    var loadRepos = function() {
+        var counter = 0;
+        var done = function() {
+            self.loading = ++counter < self.repos.length;
+            if(!self.loading) {
+                self.outdated = _.filter(self.diff, function(diff) {
+                    return diff.ahead_by > 0;
+                });
+                self.notVersioned = _.filter(self.repos, function(repo) {
+                    return !self.diff[repo];
+                });
+            }
+        };
 
-        for(var alias in manifest) {
-            var names = manifest[alias]['repositories'];
-            repos = _.union(repos, names);
-        }
+        self.loading = true;
+        angular.forEach(self.repos, function(repo) {
+            // Get last tag for the repo
+            var path = '/repos/' + ORG + '/' + repo + '/tags';
+            self.request(path).then(function(res) {
+                var tag = res.data[0];
+                if(!tag) { done(); return; }
 
-        self.repos = repos;
+                // Compare commits between the last tag and HEAD
+                path = '/repos/' + ORG + '/' + repo + '/compare/' + tag.name + '...HEAD';
+                self.request(path).then(function(res) {
+                    angular.extend(res.data, {
+                        last_tag: tag.name,
+                        repository: repo
+                    });
+                    self.diff[repo] = res.data;
+                    done();
+                });
+            }).catch(function(err) {
+                done();
+                console.error("Can't load '" + repo + "' info");
+            });
+        });
     };
 
     var getRepos = function() {
+        // Github API path
         var path = '/repos/' + MANIFEST + '/contents/gitprojects.yml';
 
+        // List files in the manifest's repo
         self.request(path).then(function(res) {
             var url = res.data['download_url'];
-            $http.get(url).then(function(res) { loadRepos(res.data); });
+
+            // Download the manifest from the repo
+            $http.get(url).then(function(res) {
+                // Parse the YAML file as JSON
+                var manifest = jsyaml.load(res.data);
+
+                // Get the repo names
+                var repos = [];
+                for(var alias in manifest) {
+                    var names = manifest[alias]['repositories'];
+                    repos = _.union(repos, names);
+                }
+
+                // self.repos = ['wings-auth', 'wings-appreminder', 'wings-devenv'];
+                self.repos = repos;
+                loadRepos();
+            });
         }).catch(function(err) {
-            console.error(err);
+            console.error("Can't load Gitcat manifest at " + MANIFEST);
         });
     };
 
-    // getUser();
-    // getRepos();
+    getUser();
+    getRepos();
 }

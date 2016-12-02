@@ -15,8 +15,8 @@
             </md-not-found>
         </md-autocomplete>
         <md-button class="user md-fab md-mini" ng-click="self.href(self.user.html_url)">
-            <md-tooltip md-direction="left">{{ self.user.login }}</md-tooltip>
-            <img src="{{ self.user.avatar_url }}"/>
+            <md-tooltip md-direction="left">{{self.user.login}}</md-tooltip>
+            <img src="{{self.user.avatar_url}}"/>
         </md-button>
     </div>
 </md-toolbar>
@@ -25,19 +25,21 @@
     <div class="summary" layout="row" layout-align="center center">
         <div layout="row" layout-align="space-around center">
             <div class="metric">
-                <span class="md-whiteframe-1dp">{{self.repos.length || 0}}</span>
+                <span class="md-whiteframe-1dp">{{self.repos.length}}</span>
                 <span>Repositories</span>
             </div>
             <div class="metric">
-                <span class="md-whiteframe-1dp">12</span>
+                <span class="md-whiteframe-1dp">{{self.outdated.length}}</span>
                 <span>Outdated</span>
             </div>
             <div class="metric">
-                <span class="md-whiteframe-1dp">6</span>
+                <span class="md-whiteframe-1dp">{{self.notVersioned.length}}</span>
                 <span>Not versioned</span>
             </div>
         </div>
     </div>
+    <md-progress-linear class="loading" md-mode="query" ng-show="self.loading"></md-progress-linear>
+    <hr ng-hide="self.loading" class="not-loading"/>
     <div class="list">
 
     </div>

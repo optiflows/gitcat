@@ -84,7 +84,7 @@ a {
 .dashboard .summary {
     background-color: #ded1c1;
     height: 215px;
-    border-bottom: solid 8px #7b655a;
+    /*border-bottom: solid 6px #7b655a;*/
 }
 
 .dashboard .summary div {
@@ -116,4 +116,21 @@ a {
     margin-top: 15px;
     color: #907f75;
     font-size: 20px;
+}
+
+.dashboard .loading .md-container,
+.dashboard .loading .md-dashed,
+.dashboard .loading .md-bar {
+    height: 6px;
+    background-color: #907f75;
+}
+
+.dashboard .loading .md-bar {
+    background-color: #5a4439;
+}
+
+.dashboard .not-loading {
+    margin: 0;
+    padding: 0;
+    border-bottom: solid 6px #7b655a;
 }
