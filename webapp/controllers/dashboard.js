@@ -111,7 +111,7 @@ function DashboardCtrl($cookies, $http, $window) {
                     repos = _.union(repos, names);
                 }
 
-                //self.repos = ['docker-skydns'];
+                //self.repos = ['nyuki-appreminder'];
                 //self.repos = ['wings-auth', 'nyuki', 'wings-devenv'];
                 self.repos = repos;
                 loadRepos();

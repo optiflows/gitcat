@@ -51,10 +51,14 @@
                 <span class="name">{{repo}}</span>
                 <div class="info">
                     <span class="since" ng-if="self.diff[repo] && self.diff[repo].ahead_by">
-                        {{ self.diff[repo].ahead_by }} commits since
+                        <md-icon md-svg-src="../images/git-commit.svg"></md-icon>
+                        {{ self.diff[repo].ahead_by }}
+                        commit{{ self.diff[repo].ahead_by > 1 ? 's' : ''}}
+                        since
                     </span>
-                    <span class="version">
-                        {{ self.diff[repo] && self.diff[repo].last_tag }}
+                    <span class="version" ng-if="self.diff[repo]">
+                        <md-icon md-svg-src="../images/git-tag.svg"></md-icon>
+                        {{ self.diff[repo].last_tag }}
                     </span>
                 </div>
             </div>

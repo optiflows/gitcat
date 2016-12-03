@@ -189,8 +189,16 @@ a {
     cursor: pointer;
 }
 
+.dashboard .repo .info md-icon {
+    fill: #ded1c1;
+    height: 16px;
+    width: 16px;
+}
+
 .dashboard .repo .name,
-.dashboard .repo .info .version {
+.dashboard .repo .info .version,
+.dashboard .repo .info .version md-icon {
+    fill: #ffffff;
     color: #ffffff;
     font-size: 18px;
 }
@@ -198,5 +206,5 @@ a {
 .dashboard .repo .info .since {
     color: #ded1c1;
     font-size: 15px;
-    margin-right: 3px;
+    margin-right: 5px;
 }
