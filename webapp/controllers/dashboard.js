@@ -68,16 +68,17 @@ function DashboardCtrl($cookies, $http, $window) {
         self.loading = true;
         angular.forEach(self.repos, function(repo) {
             // Get last tag for the repo
-            var path = '/repos/' + ORG + '/' + repo + '/tags';
+            var path = '/repos/' + ORG + '/' + repo + '/git/refs/tags';
             self.request(path).then(function(res) {
-                var tag = res.data[0];
-                if(!tag) { done(); return; }
+                var index = res.data.length ? res.data.length - 1 : -1;
+                if(index < 0) { done(); return; }
 
+                var tag = res.data[index].ref.substring(10);
                 // Compare commits between the last tag and HEAD
-                path = '/repos/' + ORG + '/' + repo + '/compare/' + tag.name + '...HEAD';
+                path = '/repos/' + ORG + '/' + repo + '/compare/' + tag + '...HEAD';
                 self.request(path).then(function(res) {
                     angular.extend(res.data, {
-                        last_tag: tag.name,
+                        last_tag: tag,
                         repository: repo
                     });
                     self.diff[repo] = res.data;
@@ -110,8 +111,9 @@ function DashboardCtrl($cookies, $http, $window) {
                     repos = _.union(repos, names);
                 }
 
-                self.repos = ['wings-auth', 'nyuki', 'wings-devenv'];
-                //self.repos = repos;
+                //self.repos = ['docker-skydns'];
+                //self.repos = ['wings-auth', 'nyuki', 'wings-devenv'];
+                self.repos = repos;
                 loadRepos();
             });
         }).catch(function(err) {

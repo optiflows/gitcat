@@ -46,7 +46,7 @@
 
     <!-- Repo list -->
     <md-virtual-repeat-container class="repos" md-top-index="0">
-        <div class="repo" md-virtual-repeat="repo in self.repos">
+        <div class="repo" md-virtual-repeat="repo in self.repos | orderBy">
             <div class="simple" layout="row" layout-align="space-between center">
                 <span class="name">{{repo}}</span>
                 <div class="info">
