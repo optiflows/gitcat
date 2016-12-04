@@ -176,12 +176,13 @@ a {
 .dashboard .not-loading {
     margin: 0;
     padding: 0;
+    border: none;
     border-bottom: solid 6px #7b655a;
 }
 
 .dashboard .repos {
     margin: auto;
-    height: calc(100vh - 246px);
+    height: calc(100vh - 245px);
     width: 100%;
 }
 
