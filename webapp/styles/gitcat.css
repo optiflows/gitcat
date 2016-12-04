@@ -220,6 +220,10 @@ a {
     font-size: 18px;
 }
 
+.dashboard .repo .name:not(:hover) md-icon:last-child {
+    display: none;
+}
+
 .dashboard .repo .info .since {
     color: #ded1c1;
     font-size: 15px;

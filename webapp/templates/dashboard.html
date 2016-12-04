@@ -65,9 +65,10 @@
              ng-click="self.details = self.details == repo ? null : repo"
              ng-class="{'selected': self.details == repo}">
             <div class="simple" layout="row" layout-align="space-between center">
-                <span class="name">
+                <span class="name" ng-click="$event.stopPropagation(); self.hrefRepo(repo);">
                     <md-icon md-svg-src="../images/git-repo.svg"></md-icon>
                     {{repo}}
+                    <md-icon md-svg-src="../images/git-link.svg"></md-icon>
                 </span>
                 <div class="info">
                     <span class="since" ng-if="self.diff[repo] && self.diff[repo].ahead_by">

@@ -37,6 +37,11 @@ function DashboardCtrl($cookies, $http, $window, $location) {
         }
     };
 
+    self.hrefRepo = function(repo) {
+        var url = 'https://github.com/' + ORG + '/' + repo;
+        self.href(url, true);
+    };
+
     self.request = function(path) {
         return $http({
             method: 'GET',
