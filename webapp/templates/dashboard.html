@@ -15,10 +15,15 @@
                 No repository matching "{{self.search}}" were found.
             </md-not-found>
         </md-autocomplete>
-        <md-button class="user md-fab md-mini" ng-click="self.href(self.user.html_url)">
-            <md-tooltip md-direction="left">{{self.user.login}}</md-tooltip>
-            <img src="{{self.user.avatar_url}}"/>
-        </md-button>
+        <div class="user-action">
+            <md-button class="user md-fab md-mini" ng-click="self.href(self.user.html_url)">
+                <md-tooltip md-direction="left">{{self.user.login}}</md-tooltip>
+                <img src="{{self.user.avatar_url}}"/>
+            </md-button>
+            <md-button class="md-icon-button" ng-click="self.signout()">
+                <md-icon md-svg-icon="../images/git-signout.svg"></md-icon>
+            </md-button>
+        </div>
     </div>
 </md-toolbar>
 

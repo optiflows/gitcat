@@ -1,4 +1,4 @@
-function DashboardCtrl($cookies, $http, $window) {
+function DashboardCtrl($cookies, $http, $window, $location) {
 
     /*
      * Controller attributes
@@ -23,6 +23,11 @@ function DashboardCtrl($cookies, $http, $window) {
     /*
      * Controller methods
      */
+
+    self.signout = function() {
+        $cookies.remove('gitcat');
+        $location.url('/');
+    };
 
     self.href = function(url) {
         $window.location.href = url;
@@ -63,6 +68,7 @@ function DashboardCtrl($cookies, $http, $window) {
      */
 
     var getUser = function() {
+        if(!TOKEN) { self.signout(); }
         self.request('/user').then(function(res) {
             self.user = res.data;
         });
@@ -128,9 +134,9 @@ function DashboardCtrl($cookies, $http, $window) {
                     repos = _.union(repos, names);
                 }
 
-                //self.repos = ['nyuki-appreminder'];
+                self.repos = ['nyuki-appreminder'];
                 //self.repos = ['wings-auth', 'nyuki', 'wings-devenv'];
-                self.repos = repos.sort();
+                //self.repos = repos.sort();
                 loadRepos();
             });
         }).catch(function(err) {
