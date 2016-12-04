@@ -50,12 +50,9 @@ function DashboardCtrl($cookies, $http, $window, $location) {
             return item.indexOf(keyword) >= 0;
         });
     };
-    
-    self.select = function() {
-        self.index = self.repos.indexOf(self.selected);
-    };
 
     self.filterRepos = function(repo) {
+        if(self.search && repo.indexOf(self.search) < 0) { return false; }
         switch(self.filter) {
             case 'outdated':
                 return self.diff[repo] ? self.diff[repo].ahead_by > 0 : false;
@@ -138,9 +135,9 @@ function DashboardCtrl($cookies, $http, $window, $location) {
                     repos = _.union(repos, names);
                 }
 
-                self.repos = ['install-machine'];
+                //self.repos = ['install-machine'];
                 //self.repos = ['wings-auth', 'nyuki', 'wings-devenv'];
-                //self.repos = repos.sort();
+                self.repos = repos.sort();
                 loadRepos();
             });
         }).catch(function(err) {

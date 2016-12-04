@@ -194,12 +194,12 @@ a {
 }
 
 .dashboard .repo:hover,
-.dashboard .repo.index {
+.dashboard .repo.selected {
     background-color: #7b655a;
     cursor: pointer;
 }
 
-.dashboard .repo.index {
+.dashboard .repo.selected {
     width: 52%;
     min-width: 480px;
 }

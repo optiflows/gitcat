@@ -2,8 +2,6 @@
     <div class="md-toolbar-tools" layout="row" layout-align="space-between center">
         <img class="logo" src="../images/gitcat.png"/>
         <md-autocomplete class="search"
-            md-selected-item="self.selected"
-            md-selected-item-change="self.select()"
             md-search-text="self.search"
             md-items="repo in self.query(self.search)"
             md-item-text="repo"
@@ -62,10 +60,10 @@
     <hr ng-hide="self.loading" class="not-loading"/>
 
     <!-- Repo list -->
-    <md-virtual-repeat-container class="repos" md-top-index="self.index">
+    <md-virtual-repeat-container class="repos">
         <div class="repo" md-virtual-repeat="repo in self.repos | filter: self.filterRepos"
-             ng-click="self.details = self.details == repo ? null : repo ; self.selected = null"
-             ng-class="{'index': self.selected == repo || self.details == repo}">
+             ng-click="self.details = self.details == repo ? null : repo"
+             ng-class="{'selected': self.details == repo}">
             <div class="simple" layout="row" layout-align="space-between center">
                 <span class="name">
                     <md-icon md-svg-src="../images/git-repo.svg"></md-icon>
