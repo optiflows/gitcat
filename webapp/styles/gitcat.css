@@ -120,7 +120,7 @@ a {
 
 .dashboard .summary {
     background-color: #ded1c1;
-    height: 215px;
+    height: 175px;
     /*border-bottom: solid 6px #7b655a;*/
 }
 
@@ -134,15 +134,20 @@ a {
 
 .dashboard .summary .metric span:first-child {
     background-color: #907f75;
-    width: 125px;
-    height: 125px;
+    width: 100px;
+    height: 100px;
     border-radius: 50%;
     margin: auto;
     display: flex;
     justify-content: center;
     align-items: center;
     color: #ffffff;
-    font-size: 50px;
+    font-size: 38px;
+}
+
+.dashboard .summary .metric span:first-child:hover,
+.dashboard .summary .metric span:first-child.filter {
+    background-color: #7b655a;
 }
 
 .dashboard .summary .metric span:last-child {
@@ -150,7 +155,7 @@ a {
     justify-content: center;
     margin-top: 15px;
     color: #907f75;
-    font-size: 20px;
+    font-size: 18px;
 }
 
 .dashboard .loading .md-container,
@@ -172,7 +177,7 @@ a {
 
 .dashboard .repos {
     margin: auto;
-    height: calc(100vh - 286px);
+    height: calc(100vh - 246px);
     width: 100%;
 }
 
@@ -184,11 +189,18 @@ a {
     min-width: 460px;
 }
 
-.dashboard .repo:hover {
+.dashboard .repo:hover,
+.dashboard .repo.index {
     background-color: #7b655a;
     cursor: pointer;
 }
 
+.dashboard .repo.index {
+    width: 52%;
+    min-width: 480px;
+}
+
+.dashboard .repo .name md-icon,
 .dashboard .repo .info md-icon {
     fill: #ded1c1;
     height: 16px;
@@ -196,6 +208,7 @@ a {
 }
 
 .dashboard .repo .name,
+.dashboard .repo .name md-icon,
 .dashboard .repo .info .version,
 .dashboard .repo .info .version md-icon {
     fill: #ffffff;

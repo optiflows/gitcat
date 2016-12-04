@@ -16,6 +16,8 @@ function DashboardCtrl($cookies, $http, $window) {
     self.outdated = [];
     self.notVersioned = [];
     self.loading = false;
+    self.index = -1;
+    self.filter = null;
 
 
     /*
@@ -38,6 +40,21 @@ function DashboardCtrl($cookies, $http, $window) {
         return _.filter(self.repos, function(item) {
             return item.indexOf(keyword) >= 0;
         });
+    };
+    
+    self.select = function() {
+        self.index = self.repos.indexOf(self.selected);
+    };
+
+    self.filterRepos = function(repo) {
+        switch(self.filter) {
+            case 'outdated':
+                return self.diff[repo] ? self.diff[repo].ahead_by > 0 : false;
+            case 'notVersioned':
+                return !self.diff[repo];
+            default:
+                return true;
+        }
     };
 
 
@@ -113,7 +130,7 @@ function DashboardCtrl($cookies, $http, $window) {
 
                 //self.repos = ['nyuki-appreminder'];
                 //self.repos = ['wings-auth', 'nyuki', 'wings-devenv'];
-                self.repos = repos;
+                self.repos = repos.sort();
                 loadRepos();
             });
         }).catch(function(err) {

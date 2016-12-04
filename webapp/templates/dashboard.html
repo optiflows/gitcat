@@ -3,6 +3,7 @@
         <img class="logo" src="../images/gitcat.png"/>
         <md-autocomplete class="search"
             md-selected-item="self.selected"
+            md-selected-item-change="self.select()"
             md-search-text="self.search"
             md-items="repo in self.query(self.search)"
             md-item-text="repo"
@@ -26,15 +27,26 @@
     <div class="summary" layout="row" layout-align="center center">
         <div layout="row" layout-align="space-around center">
             <div class="metric">
-                <span class="md-whiteframe-1dp">{{self.repos.length}}</span>
+                <span class="md-whiteframe-1dp"
+                      ng-click="self.filter = null">
+                    {{self.repos.length}}
+                </span>
                 <span>Repositories</span>
             </div>
             <div class="metric">
-                <span class="md-whiteframe-1dp">{{self.outdated.length}}</span>
+                <span class="md-whiteframe-1dp"
+                      ng-click="self.filter = 'outdated'"
+                      ng-class="{'filter': self.filter == 'outdated'}">
+                    {{self.outdated.length}}
+                </span>
                 <span>Outdated</span>
             </div>
             <div class="metric">
-                <span class="md-whiteframe-1dp">{{self.notVersioned.length}}</span>
+                <span class="md-whiteframe-1dp"
+                      ng-click="self.filter = 'notVersioned'"
+                      ng-class="{'filter': self.filter == 'notVersioned'}">
+                    {{self.notVersioned.length}}
+                </span>
                 <span>Not versioned</span>
             </div>
         </div>
@@ -45,10 +57,14 @@
     <hr ng-hide="self.loading" class="not-loading"/>
 
     <!-- Repo list -->
-    <md-virtual-repeat-container class="repos" md-top-index="0">
-        <div class="repo" md-virtual-repeat="repo in self.repos | orderBy">
+    <md-virtual-repeat-container class="repos" md-top-index="self.index">
+        <div class="repo" md-virtual-repeat="repo in self.repos | filter: self.filterRepos"
+             ng-class="{'index': self.selected == repo}">
             <div class="simple" layout="row" layout-align="space-between center">
-                <span class="name">{{repo}}</span>
+                <span class="name">
+                    <md-icon md-svg-src="../images/git-repo.svg"></md-icon>
+                    {{repo}}
+                </span>
                 <div class="info">
                     <span class="since" ng-if="self.diff[repo] && self.diff[repo].ahead_by">
                         <md-icon md-svg-src="../images/git-commit.svg"></md-icon>
