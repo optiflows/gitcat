@@ -64,7 +64,8 @@
     <!-- Repo list -->
     <md-virtual-repeat-container class="repos" md-top-index="self.index">
         <div class="repo" md-virtual-repeat="repo in self.repos | filter: self.filterRepos"
-             ng-class="{'index': self.selected == repo}">
+             ng-click="self.details = self.details == repo ? null : repo ; self.selected = null"
+             ng-class="{'index': self.selected == repo || self.details == repo}">
             <div class="simple" layout="row" layout-align="space-between center">
                 <span class="name">
                     <md-icon md-svg-src="../images/git-repo.svg"></md-icon>
@@ -83,8 +84,22 @@
                     </span>
                 </div>
             </div>
-            <div class="details" ng-show="false">
-
+            <div class="details" ng-show="self.details == repo && self.diff[repo] && self.diff[repo].ahead_by">
+                <div ng-repeat="commit in self.diff[repo].commits" class="commit"
+                     layout="row" layout-align="space-between center"
+                     ng-click="$event.stopPropagation(); self.href(commit.html_url, true);">
+                    <div class="author">
+                        <md-tooltip md-direction="left">{{commit.author.login}}</md-tooltip>
+                        <img src="{{commit.author.avatar_url}}"/>
+                    </div>
+                    <div class="message" flex>
+                        {{commit.commit.message}}
+                    </div>
+                    <div class="sha">
+                        <md-icon md-svg-src="../images/git-link.svg"></md-icon>
+                        {{commit.sha.substring(0, 7)}}
+                    </div>
+                </div>
             </div>
         </div>
     </md-virtual-repeat-container>

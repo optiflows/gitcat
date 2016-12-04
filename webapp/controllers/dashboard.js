@@ -29,8 +29,12 @@ function DashboardCtrl($cookies, $http, $window, $location) {
         $location.url('/');
     };
 
-    self.href = function(url) {
-        $window.location.href = url;
+    self.href = function(url, fork) {
+        if(fork) {
+            $window.open(url, '_blank');
+        } else {
+            $window.location.href = url;
+        }
     };
 
     self.request = function(path) {
@@ -134,7 +138,7 @@ function DashboardCtrl($cookies, $http, $window, $location) {
                     repos = _.union(repos, names);
                 }
 
-                self.repos = ['nyuki-appreminder'];
+                self.repos = ['install-machine'];
                 //self.repos = ['wings-auth', 'nyuki', 'wings-devenv'];
                 //self.repos = repos.sort();
                 loadRepos();

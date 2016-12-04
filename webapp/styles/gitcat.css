@@ -75,13 +75,17 @@ a {
 }
 
 .header .user {
-    background-color: #ffffff;
+    background-color: #ded1c1;
 }
 
 .header .user img {
     width: 40px;
     height: 40px;
     margin-left: -6px;
+}
+
+.header .user-action md-icon {
+    fill: #ded1c1;
 }
 
 
@@ -220,4 +224,44 @@ a {
     color: #ded1c1;
     font-size: 15px;
     margin-right: 5px;
+}
+
+.dashboard .repo .details {
+    margin-top: 15px;
+    color: #ded1c1;
+    font-size: 13px;
+    line-height: 16px;
+}
+
+.dashboard .repo .details .commit {
+    margin: 2px;
+}
+
+.dashboard .repo .details .commit .author img {
+    height: 16px;
+    width: 16px;
+    vertical-align: middle;
+}
+
+.dashboard .repo .details .commit .sha md-icon {
+    height: 12px;
+    width: 12px;
+    fill: #ffffff;
+}
+
+.dashboard .repo .details .commit .message {
+    margin: 0 12px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.dashboard .repo .details .commit .sha {
+    font-family: "Lucida Console", Monaco, monospace;
+    font-size: 12px;
+    color: #ffffff;
+}
+
+.dashboard .repo .details .commit:not(:hover) .sha md-icon {
+    display: none;
 }
