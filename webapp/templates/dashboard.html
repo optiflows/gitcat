@@ -16,7 +16,7 @@
         <div class="user-action">
             <md-button class="user md-fab md-mini" ng-click="self.href(self.user.html_url)">
                 <md-tooltip md-direction="left">{{self.user.login}}</md-tooltip>
-                <img src="{{self.user.avatar_url}}"/>
+                <img ng-src="{{self.user.avatar_url}}"/>
             </md-button>
             <md-button class="md-icon-button" ng-click="self.signout()">
                 <md-icon md-svg-icon="../images/git-signout.svg"></md-icon>
@@ -89,7 +89,7 @@
                      ng-click="$event.stopPropagation(); self.href(commit.html_url, true);">
                     <div class="author">
                         <md-tooltip md-direction="left">{{commit.author.login}}</md-tooltip>
-                        <img src="{{commit.author.avatar_url}}"/>
+                        <img ng-src="{{commit.author.avatar_url}}"/>
                     </div>
                     <div class="message" flex>
                         {{commit.commit.message}}
