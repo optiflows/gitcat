@@ -1,13 +1,11 @@
-function DashboardCtrl($cookies, $http, $window, $location) {
+function DashboardCtrl($cookies, $http, $window, $location, ORG, MANIFEST) {
 
     /*
      * Controller attributes
      */
 
-    const ORG = 'optiflows';
     const API = 'https://api.github.com';
     const TOKEN = $cookies.get('gitcat');
-    const MANIFEST = 'optiflows/devenv';
 
     var self = this;
     self.user = {};
