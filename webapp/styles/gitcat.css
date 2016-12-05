@@ -181,8 +181,9 @@ a {
 }
 
 .dashboard .repos {
+    overflow-y: auto;
     margin: auto;
-    height: calc(100vh - 245px);
+    max-height: calc(100vh - 245px);
     width: 100%;
 }
 

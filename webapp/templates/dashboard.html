@@ -60,8 +60,8 @@
     <hr ng-hide="self.loading" class="not-loading"/>
 
     <!-- Repo list -->
-    <md-virtual-repeat-container class="repos">
-        <div class="repo" md-virtual-repeat="repo in self.repos | filter: self.filterRepos"
+    <div class="repos">
+        <div class="repo" ng-repeat="repo in self.repos | filter: self.filterRepos"
              ng-click="self.details = self.details == repo ? null : repo"
              ng-class="{'selected': self.details == repo}">
             <div class="simple" layout="row" layout-align="space-between center">
@@ -101,5 +101,5 @@
                 </div>
             </div>
         </div>
-    </md-virtual-repeat-container>
+    </div>
 </div>
