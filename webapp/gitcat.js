@@ -19,7 +19,7 @@ app.controller('DashboardCtrl', DashboardCtrl);
 
 
 var $http = angular.injector(['ng']).get('$http');
-$http.get('../configs/github.json').then(function(res) {
+$http.get('../configs/.github.json').then(function(res) {
     // Load JS application config
     app.constant('ORG', res.data.organization);
     app.constant('MANIFEST', res.data.manifest);
