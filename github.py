@@ -18,6 +18,10 @@ class Github(object):
         self._secret = secret
         self._sessions = {}
 
+    @property
+    def key(self):
+        return self._key
+
     def _clean_state(self, state):
         if state not in self._sessions:
             return

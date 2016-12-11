@@ -24,9 +24,14 @@ $http.get('../configs/.github.json').then(function(res) {
     app.constant('ORG', res.data.organization);
     app.constant('MANIFEST', res.data.manifest);
 
-    // Bootstrap Angular application
-    angular.element(document).ready(function() {
-        angular.bootstrap(document, ['gitcat']);
+    // Load Gitcat intance ID
+    $http.get(location.origin + '/api/app').then(function(res) {
+        app.constant('APPID', res.data.gitcat_id);
+
+        // Bootstrap Angular application
+        angular.element(document).ready(function() {
+            angular.bootstrap(document, ['gitcat']);
+        });
     });
 }).catch(function(err) {
     console.error("Gitcat config file is missing!");

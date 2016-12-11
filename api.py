@@ -46,3 +46,12 @@ class ApiAuth(View):
 
         log.critical("OAuth token '{}' generated".format(token))
         return Response({'token': token})
+
+
+class ApiApp(View):
+
+    async def get(self):
+        """
+        Returns the Github's app ID.
+        """
+        return Response({'gitcat_id': runtime.app_id})
