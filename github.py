@@ -10,7 +10,7 @@ class Github(object):
 
     AUTH_URL = 'https://github.com/login/oauth/authorize'
     TOKEN_URL = 'https://github.com/login/oauth/access_token'
-    SCOPE = 'read:org,repo'
+    SCOPE = 'gist,read:org,repo'
 
     def __init__(self, key, secret, *, loop=None):
         self._loop = loop or asyncio.get_event_loop()

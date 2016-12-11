@@ -1,4 +1,4 @@
-function DashboardCtrl($cookies, $http, $window, $location, ORG, MANIFEST) {
+function DashboardCtrl($cookies, $http, $window, $location, ORG, MANIFEST, APPID) {
 
     /*
      * Controller attributes
@@ -9,6 +9,7 @@ function DashboardCtrl($cookies, $http, $window, $location, ORG, MANIFEST) {
 
     var self = this;
     self.user = {};
+    self.config = {whitelist: []};
     self.repos = [];
     self.diff = {};
     self.outdated = [];
@@ -40,11 +41,12 @@ function DashboardCtrl($cookies, $http, $window, $location, ORG, MANIFEST) {
         self.href(url, true);
     };
 
-    self.request = function(path) {
+    self.request = function(method, path, data) {
         return $http({
-            method: 'GET',
+            method: method,
             url: API + path,
-            headers: {'Authorization': 'token ' + TOKEN}
+            headers: {'Authorization': 'token ' + TOKEN},
+            data: data
         });
     };
 
@@ -71,10 +73,35 @@ function DashboardCtrl($cookies, $http, $window, $location, ORG, MANIFEST) {
      * Entrypoint
      */
 
+    var getConfig = function() {
+        var path = '/users/' + self.user.login + '/gists';
+        self.request('GET', path).then(function(res) {
+            var name = 'gitcat-' + APPID.substring(0, 8) + '.json';
+            var gist = _.find(res.data, function(g) { return name in g.files });
+
+            if(!gist) {
+                // Create a config into user's Gists
+                var content = {};
+                content[name] = {content: JSON.stringify(self.config)};
+                self.request('POST', '/gists', {
+                    description: 'Gitcat configuration file (auto-generated)',
+                    public: false,
+                    files: content
+                });
+            } else {
+                // Get config from user's Gists
+                $http.get(gist.files[name].raw_url).then(function(res) {
+                    self.config = res.data;
+                });
+            }
+        });
+    };
+
     var getUser = function() {
         if(!TOKEN) { self.signout(); }
-        self.request('/user').then(function(res) {
+        self.request('GET', '/user').then(function(res) {
             self.user = res.data;
+            getConfig();
         });
     };
 
@@ -96,14 +123,14 @@ function DashboardCtrl($cookies, $http, $window, $location, ORG, MANIFEST) {
         angular.forEach(self.repos, function(repo) {
             // Get last tag for the repo
             var path = '/repos/' + ORG + '/' + repo + '/git/refs/tags';
-            self.request(path).then(function(res) {
+            self.request('GET', path).then(function(res) {
                 var index = res.data.length ? res.data.length - 1 : -1;
                 if(index < 0) { done(); return; }
 
                 var tag = res.data[index].ref.substring(10);
                 // Compare commits between the last tag and HEAD
                 path = '/repos/' + ORG + '/' + repo + '/compare/' + tag + '...HEAD';
-                self.request(path).then(function(res) {
+                self.request('GET', path).then(function(res) {
                     angular.extend(res.data, {
                         last_tag: tag,
                         repository: repo
@@ -123,7 +150,7 @@ function DashboardCtrl($cookies, $http, $window, $location, ORG, MANIFEST) {
         var path = '/repos/' + MANIFEST + '/contents/gitprojects.yml';
 
         // List files in the manifest's repo
-        self.request(path).then(function(res) {
+        self.request('GET', path).then(function(res) {
             var url = res.data['download_url'];
 
             // Download the manifest from the repo
@@ -149,5 +176,5 @@ function DashboardCtrl($cookies, $http, $window, $location, ORG, MANIFEST) {
     };
 
     getUser();
-    getRepos();
+    //getRepos();
 }
