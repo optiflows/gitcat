@@ -11,11 +11,17 @@ app.config(['$routeProvider', function($routeProvider) {
         controller: 'DashboardCtrl',
         controllerAs: 'self',
         templateUrl: 'templates/dashboard.html'
+    })
+    .when('/settings', {
+        controller: 'SettingsCtrl',
+        controllerAs: 'self',
+        templateUrl: 'templates/settings.html'
     });
 }]);
 
 app.controller('MainCtrl', MainCtrl);
 app.controller('DashboardCtrl', DashboardCtrl);
+app.controller('SettingsCtrl', SettingsCtrl);
 
 
 var $http = angular.injector(['ng']).get('$http');
