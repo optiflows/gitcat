@@ -16,6 +16,40 @@
     </div>
 </md-toolbar>
 
-<div class="dashboard" flex layout="column" layout-align="start stretch">
+<div class="settings" flex layout="column" layout-align="start stretch">
+    <!-- Organizations -->
+    <div class="summary" layout="row" layout-align="center center">
+        <div layout="row" layout-align="space-around center">
+            <!-- All -->
+            <div class="org">
+                <span class="md-whiteframe-1dp"
+                      ng-click="self.filter = null">
+                    {{self.orgs.length + 1}}
+                </span>
+                <span>Organizations</span>
+            </div>
+            <!-- User's -->
+            <div class="org avatared">
+                <span class="md-whiteframe-1dp"
+                      ng-click="self.filter = self.user.login"
+                      ng-class="{'filter': self.filter == self.user.login}">
+                    <img ng-src="{{self.user.avatar_url}}"/>
+                </span>
+                <span>{{self.user.login}}</span>
+            </div>
+            <!-- Orgs -->
+            <div class="org avatared" ng-repeat="org in self.orgs">
+                <span class="md-whiteframe-1dp"
+                      ng-click="self.filter = org.login"
+                      ng-class="{'filter': self.filter == org.login}">
+                    <img ng-src="{{org.avatar_url}}"/>
+                </span>
+                <span>{{org.login}}</span>
+            </div>
+        </div>
+    </div>
 
+    <!-- Load separator -->
+    <md-progress-linear class="loading" md-mode="query" ng-show="self.loading"></md-progress-linear>
+    <hr ng-hide="self.loading" class="not-loading"/>
 </div>

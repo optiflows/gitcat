@@ -118,25 +118,30 @@ a {
     fill: black;
 }
 
+
 /*
- * Dashboard page
+ * Sub-navigation bar
  */
 
-.dashboard .summary {
+.dashboard .summary,
+.settings .summary {
     background-color: #ded1c1;
     height: 175px;
     /*border-bottom: solid 6px #7b655a;*/
 }
 
-.dashboard .summary div {
+.dashboard .summary div,
+.settings .summary div {
     width: 50%;
 }
 
-.dashboard .summary .metric {
+.dashboard .summary .metric,
+.settings .summary .org {
     margin-top: 5px;
 }
 
-.dashboard .summary .metric span:first-child {
+.dashboard .summary .metric span:first-child,
+.settings .summary .org span:first-child {
     background-color: #907f75;
     width: 100px;
     height: 100px;
@@ -150,11 +155,14 @@ a {
 }
 
 .dashboard .summary .metric span:first-child:hover,
-.dashboard .summary .metric span:first-child.filter {
+.dashboard .summary .metric span:first-child.filter,
+.settings .summary .org span:first-child:hover,
+.settings .summary .org span:first-child.filter {
     background-color: #7b655a;
 }
 
-.dashboard .summary .metric span:last-child {
+.dashboard .summary .metric span:last-child,
+.settings .summary .org span:last-child {
     display: flex;
     justify-content: center;
     margin-top: 15px;
@@ -164,21 +172,31 @@ a {
 
 .dashboard .loading .md-container,
 .dashboard .loading .md-dashed,
-.dashboard .loading .md-bar {
+.dashboard .loading .md-bar,
+.settings .loading .md-container,
+.settings .loading .md-dashed,
+.settings .loading .md-bar {
     height: 6px;
     background-color: #907f75;
 }
 
-.dashboard .loading .md-bar {
+.dashboard .loading .md-bar,
+.settings .loading .md-bar {
     background-color: #5a4439;
 }
 
-.dashboard .not-loading {
+.dashboard .not-loading,
+.settings .not-loading {
     margin: 0;
     padding: 0;
     border: none;
     border-bottom: solid 6px #7b655a;
 }
+
+
+/*
+ * Dashboard page
+ */
 
 .dashboard .repos {
     overflow-y: auto;
@@ -270,4 +288,20 @@ a {
 
 .dashboard .repo .details .commit:not(:hover) .sha md-icon {
     display: none;
+}
+
+
+/*
+ * Settings page
+ */
+
+.settings .summary .org.avatared span:first-child {
+    background-color: transparent;
+}
+
+.settings .summary .org img {
+    display: block;
+    height: 100px;
+    width: auto;
+    border-radius: 50%;
 }

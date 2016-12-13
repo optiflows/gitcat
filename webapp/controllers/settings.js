@@ -11,6 +11,7 @@ function SettingsCtrl($cookies, $http, $window, $location, APPID) {
     self.user = {};
     self.config = {whitelist: []};
     self.repos = [];
+    self.orgs = [];
 
 
     /*
@@ -100,8 +101,18 @@ function SettingsCtrl($cookies, $http, $window, $location, APPID) {
                 var next_page = next_link.split('?page=')[1];
                 getRepos(next_page);
             } else {
-                console.log(self.repos);
+                // var uniq = _.uniqWith(self.repos, function(obj1, obj2) {
+                //     return obj1.owner.login == obj2.owner.login;
+                // });
+                // self.orgs = _.map(uniq, 'owner.login');
             }
+        });
+    };
+
+    var getOrgs = function() {
+        self.request('GET', '/user/orgs').then(function(res) {
+            self.orgs = res.data;
+            console.log(self.orgs);
         });
     };
 
@@ -110,7 +121,8 @@ function SettingsCtrl($cookies, $http, $window, $location, APPID) {
         self.request('GET', '/user').then(function(res) {
             self.user = res.data;
             //getConfig();
-            getRepos();
+            //getRepos();
+            getOrgs();
         });
     };
 
