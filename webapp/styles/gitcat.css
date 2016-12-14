@@ -195,17 +195,19 @@ a {
 
 
 /*
- * Dashboard page
+ * Repositories list
  */
 
-.dashboard .repos {
+.dashboard .repos,
+.settings .repos {
     overflow-y: auto;
     margin: auto;
     max-height: calc(100vh - 245px);
     width: 100%;
 }
 
-.dashboard .repo {
+.dashboard .repo,
+.settings .repo {
     padding: 10px 20px;
     margin: 3px auto;
     background-color: #907f75;
@@ -214,18 +216,22 @@ a {
 }
 
 .dashboard .repo:hover,
-.dashboard .repo.selected {
+.dashboard .repo.selected,
+.settings .repo:hover,
+.settings .repo.selected {
     background-color: #7b655a;
     cursor: pointer;
 }
 
-.dashboard .repo.selected {
+.dashboard .repo.selected,
+.settings .repo.selected {
     width: 52%;
     min-width: 480px;
 }
 
 .dashboard .repo .name md-icon,
-.dashboard .repo .info md-icon {
+.dashboard .repo .info md-icon,
+.settings .repo .name md-icon {
     fill: #ded1c1;
     height: 16px;
     width: 16px;
@@ -234,15 +240,24 @@ a {
 .dashboard .repo .name,
 .dashboard .repo .name md-icon,
 .dashboard .repo .info .version,
-.dashboard .repo .info .version md-icon {
+.dashboard .repo .info .version md-icon,
+.settings .repo .name,
+.settings .repo .name md-icon,
+.settings .repo .info md-icon {
     fill: #ffffff;
     color: #ffffff;
     font-size: 18px;
 }
 
-.dashboard .repo .name:not(:hover) md-icon:last-child {
+.dashboard .repo .name:not(:hover) md-icon:last-child,
+.settings .repo .name:not(:hover) md-icon:last-child {
     display: none;
 }
+
+
+/*
+ * Dashboard page
+ */
 
 .dashboard .repo .info .since {
     color: #ded1c1;
@@ -304,4 +319,8 @@ a {
     height: 100px;
     width: auto;
     border-radius: 50%;
+}
+
+.settings .repo:not(.selected) .info {
+    display: none;
 }

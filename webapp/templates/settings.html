@@ -52,4 +52,22 @@
     <!-- Load separator -->
     <md-progress-linear class="loading" md-mode="query" ng-show="self.loading"></md-progress-linear>
     <hr ng-hide="self.loading" class="not-loading"/>
+
+    <!-- Repo list -->
+    <div class="repos">
+        <div class="repo" ng-click="self.toggle(repo)"
+             ng-repeat="repo in self.repos | filter: self.filterRepos | orderBy:'name'"
+             ng-class="{'selected': self.config.whitelist.indexOf(repo.full_name) >= 0}">
+            <div class="simple" layout="row" layout-align="space-between center">
+                <span class="name" ng-click="$event.stopPropagation(); self.hrefRepo(repo);">
+                    <md-icon md-svg-src="../images/git-repo.svg"></md-icon>
+                    {{repo.name}}
+                    <md-icon md-svg-src="../images/git-link.svg"></md-icon>
+                </span>
+                <div class="info">
+                    <md-icon md-svg-src="../images/git-check.svg"></md-icon>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
