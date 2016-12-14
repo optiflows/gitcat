@@ -10,6 +10,7 @@ function SettingsCtrl($cookies, $http, $window, $location, APPID) {
     var self = this;
     self.user = {};
     self.config = {whitelist: []};
+    self.gist = null;
     self.repos = [];
     self.orgs = [];
     self.filter = null;
@@ -52,6 +53,7 @@ function SettingsCtrl($cookies, $http, $window, $location, APPID) {
     };
 
     self.toggle = function(repo) {
+        self.gist.local = true;
         var index = self.config.whitelist.indexOf(repo.full_name);
         if(index >= 0) {
             self.config.whitelist.splice(index, 1);
@@ -60,10 +62,28 @@ function SettingsCtrl($cookies, $http, $window, $location, APPID) {
         }
     };
 
+    self.save = function() {
+        if(!self.gist.local) { return; }
+        var name = 'gitcat-' + APPID.substring(0, 8) + '.json';
+        var content = {};
+        content[name] = {content: JSON.stringify(self.config)};
+        self.request('PATCH', '/gists/' + self.gist.id, {files: content});
+        self.gist.local = false;
+    };
+
+
+    /*
+     * Events
+     */
+
+    $window.onbeforeunload = function(event) {
+        self.save();
+    };
+
+
     /*
      * Entrypoint
      */
-
 
     function parse_link_header(header) {
         if (header.length === 0) {
@@ -101,9 +121,14 @@ function SettingsCtrl($cookies, $http, $window, $location, APPID) {
                     description: 'Gitcat configuration file (auto-generated)',
                     public: false,
                     files: content
+                }).then(function(res) {
+                    self.gist = res.data;
+                    self.gist.local = false;
                 });
             } else {
                 // Get config from user's Gists
+                self.gist = gist;
+                self.gist.local = false;
                 $http.get(gist.files[name].raw_url).then(function(res) {
                     self.config = res.data;
                 });
@@ -136,7 +161,7 @@ function SettingsCtrl($cookies, $http, $window, $location, APPID) {
         if(!TOKEN) { self.signout(); }
         self.request('GET', '/user').then(function(res) {
             self.user = res.data;
-            //getConfig();
+            getConfig();
             getRepos();
             getOrgs();
         });

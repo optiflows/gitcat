@@ -54,7 +54,7 @@
     <hr ng-hide="self.loading" class="not-loading"/>
 
     <!-- Repo list -->
-    <div class="repos">
+    <div class="repos" ng-mouseleave="self.save()">
         <div class="repo" ng-click="self.toggle(repo)"
              ng-repeat="repo in self.repos | filter: self.filterRepos | orderBy:'name'"
              ng-class="{'selected': self.config.whitelist.indexOf(repo.full_name) >= 0}">
