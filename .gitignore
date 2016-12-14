@@ -47,4 +47,3 @@ coverage.xml
 .DS_Store
 .idea/
 config.env
-webapp/configs/.*
