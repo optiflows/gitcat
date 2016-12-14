@@ -161,6 +161,7 @@ function SettingsCtrl($cookies, $http, $window, $location, APPID) {
         if(!TOKEN) { self.signout(); }
         self.request('GET', '/user').then(function(res) {
             self.user = res.data;
+            self.filter = self.user.login;
             getConfig();
             getRepos();
             getOrgs();
