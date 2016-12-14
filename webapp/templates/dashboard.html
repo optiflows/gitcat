@@ -64,7 +64,7 @@
 
     <!-- Repo list -->
     <div class="repos">
-        <div class="repo" ng-repeat="repo in self.repos | filter: self.filterRepos"
+        <div class="repo" ng-repeat="repo in self.repos | filter: self.filterRepos | orderBy"
              ng-click="self.details = self.details == repo ? null : repo"
              ng-class="{'selected': self.details == repo}">
             <div class="simple" layout="row" layout-align="space-between center">

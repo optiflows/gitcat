@@ -25,20 +25,13 @@ app.controller('SettingsCtrl', SettingsCtrl);
 
 
 var $http = angular.injector(['ng']).get('$http');
-$http.get('../configs/.github.json').then(function(res) {
-    // Load JS application config
-    app.constant('ORG', res.data.organization);
-    app.constant('MANIFEST', res.data.manifest);
+$http.get(location.origin + '/api/app').then(function(res) {
+    app.constant('APPID', res.data.gitcat_id);
 
-    // Load Gitcat intance ID
-    $http.get(location.origin + '/api/app').then(function(res) {
-        app.constant('APPID', res.data.gitcat_id);
-
-        // Bootstrap Angular application
-        angular.element(document).ready(function() {
-            angular.bootstrap(document, ['gitcat']);
-        });
+    // Bootstrap Angular application
+    angular.element(document).ready(function() {
+        angular.bootstrap(document, ['gitcat']);
     });
 }).catch(function(err) {
-    console.error("Gitcat config file is missing!");
+    console.error("Gitcat ID is missing!");
 });
