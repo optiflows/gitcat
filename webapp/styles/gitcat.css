@@ -254,6 +254,31 @@ a {
     display: none;
 }
 
+.dashboard .repos .empty,
+.settings .repos .empty {
+    height: calc(100vh - 245px);
+    min-height: 250px;
+    width: 50%;
+    min-width: 460px;
+    margin: auto;
+}
+
+.dashboard .repos .empty .alert,
+.dashboard .repos .empty .alert md-icon,
+.settings .repos .empty .alert,
+.settings .repos .empty .alert md-icon {
+    margin-top: -50px;
+    color: #907f75;
+    font-size: 14px;
+}
+
+.dashboard .repos .empty .alert md-icon,
+.settings .repos .empty .alert md-icon {
+    width: 40px;
+    height: 40px;
+    padding-bottom: 10px;
+}
+
 
 /*
  * Dashboard page

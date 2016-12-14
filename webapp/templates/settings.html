@@ -1,6 +1,18 @@
 <md-toolbar class="header md-whiteframe-6dp">
     <div class="md-toolbar-tools" layout="row" layout-align="space-between center">
         <img class="logo" src="../images/gitcat.png" ng-click="self.href('/#/dashboard')"/>
+        <md-autocomplete class="search"
+            md-search-text="self.search"
+            md-items="repo in self.query(self.search)"
+            md-item-text="repo"
+            placeholder="Filter by repository">
+            <md-item-template>
+                <span md-highlight-text="self.search" md-highlight-flags="^i">{{repo.full_name}}</span>
+            </md-item-template>
+            <md-not-found>
+                No repository matching "{{self.search}}" were found.
+            </md-not-found>
+        </md-autocomplete>
         <div class="user-action">
             <md-button class="user md-fab md-mini" ng-click="self.href(self.user.html_url)">
                 <md-tooltip md-direction="left">{{self.user.login}}</md-tooltip>
@@ -48,7 +60,7 @@
     <!-- Repo list -->
     <div class="repos" ng-mouseleave="self.save()">
         <div class="repo" ng-click="self.toggle(repo)"
-             ng-repeat="repo in self.repos | filter: self.filterRepos | orderBy:'name'"
+             ng-repeat="repo in filteredRepos = (self.repos | filter: self.filterRepos | orderBy:'name')"
              ng-class="{'selected': self.config.whitelist.indexOf(repo.full_name) >= 0}">
             <div class="simple" layout="row" layout-align="space-between center">
                 <span class="name" ng-click="$event.stopPropagation(); self.hrefRepo(repo);">
@@ -59,6 +71,15 @@
                 <div class="info">
                     <md-icon md-svg-src="../images/git-check.svg"></md-icon>
                 </div>
+            </div>
+        </div>
+
+        <!-- List is empty -->
+        <div class="empty" ng-if="!self.loading && filteredRepos.length < 1"
+             layout="column" layout-align="center center">
+            <div class="alert" layout="column">
+                <md-icon md-svg-src="../images/git-search.svg"></md-icon>
+                No repository found
             </div>
         </div>
     </div>

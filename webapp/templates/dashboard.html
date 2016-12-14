@@ -64,7 +64,7 @@
 
     <!-- Repo list -->
     <div class="repos">
-        <div class="repo" ng-repeat="repo in self.repos | filter: self.filterRepos | orderBy"
+        <div class="repo" ng-repeat="repo in filteredRepos = (self.repos | filter: self.filterRepos | orderBy)"
              ng-click="self.details = self.details == repo ? null : repo"
              ng-class="{'selected': self.details == repo}">
             <div class="simple" layout="row" layout-align="space-between center">
@@ -102,6 +102,23 @@
                         {{commit.sha.substring(0, 7)}}
                     </div>
                 </div>
+            </div>
+        </div>
+
+        <!-- List is empty -->
+        <div class="empty" ng-if="!self.vanilla && !self.loading && filteredRepos.length < 1"
+             layout="column" layout-align="center center">
+            <div class="alert" layout="column">
+                <md-icon md-svg-src="../images/git-search.svg"></md-icon>
+                No repository found
+            </div>
+        </div>
+
+        <div class="empty" ng-if="!self.loading && self.vanilla"
+             layout="column" layout-align="center center">
+            <div class="alert" layout="column">
+                <md-icon md-svg-src="../images/git-rocket.svg"></md-icon>
+                Welcome {{self.user.login}}
             </div>
         </div>
     </div>

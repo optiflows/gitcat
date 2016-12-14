@@ -48,7 +48,14 @@ function SettingsCtrl($cookies, $http, $window, $location, APPID) {
         });
     };
 
+    self.query = function(keyword) {
+        return _.filter(self.repos, function(item) {
+            return item.full_name.indexOf(keyword) >= 0;
+        });
+    };
+
     self.filterRepos = function(repo) {
+        if(self.search && repo.full_name.indexOf(self.search) < 0) { return false; }
         return self.filter ? repo.owner.login == self.filter : true;
     };
 

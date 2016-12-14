@@ -16,6 +16,7 @@ function DashboardCtrl($cookies, $http, $window, $location, APPID) {
     self.loading = false;
     self.index = -1;
     self.filter = null;
+    self.vanilla = false;
 
 
     /*
@@ -123,6 +124,9 @@ function DashboardCtrl($cookies, $http, $window, $location, APPID) {
                     self.repos = res.data.whitelist;
                     loadRepos();
                 });
+            } else {
+                // No config found
+                self.vanilla = true;
             }
         });
     };
