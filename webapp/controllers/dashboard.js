@@ -122,7 +122,12 @@ function DashboardCtrl($cookies, $http, $window, $location, APPID) {
                 // Get config from user's Gists
                 $http.get(gist.files[name].raw_url).then(function(res) {
                     self.repos = res.data.whitelist;
-                    loadRepos();
+                    if(self.repos.length) {
+                        loadRepos();
+                    } else {
+                        // Empty config
+                        self.vanilla = true;
+                    }
                 });
             } else {
                 // No config found

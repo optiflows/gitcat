@@ -114,11 +114,17 @@
             </div>
         </div>
 
-        <div class="empty" ng-if="!self.loading && self.vanilla"
+        <div class="vanilla" ng-if="!self.loading && self.vanilla"
              layout="column" layout-align="center center">
             <div class="alert" layout="column">
-                <md-icon md-svg-src="../images/git-rocket.svg"></md-icon>
-                Welcome {{self.user.login}}
+                <md-icon md-svg-src="../images/git-octoface.svg"></md-icon>
+                <span>
+                    Welcome to Gitcat, {{self.user.login}}.<br/>
+                    Add watched repositories in the settings
+                    <md-icon class="inline" md-svg-icon="../images/git-tools.svg"
+                             ng-click="self.href('/#/settings')">
+                    </md-icon>
+                </span>
             </div>
         </div>
     </div>
