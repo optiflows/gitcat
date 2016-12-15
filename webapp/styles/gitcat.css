@@ -379,3 +379,7 @@ a {
 .settings .repo:not(.selected) .info {
     display: none;
 }
+
+.settings .summary .org.avatared span:not(.filter) img {
+    opacity: 0.5;
+}
