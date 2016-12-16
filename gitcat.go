@@ -21,6 +21,7 @@ type TokenArgs struct {
 const (
 	APPKEY    = "GITHUB_APP_KEY"
 	APPSECRET = "GITHUB_APP_SECRET"
+	SCOPE     = "gist,read:org,repo"
 )
 
 var (
@@ -94,7 +95,7 @@ func main() {
 	config = oauth2.Config{
 		ClientID:     appKey,
 		ClientSecret: appSecret,
-		Scopes:       []string{"read:org,repo"},
+		Scopes:       []string{SCOPE},
 		Endpoint: oauth2.Endpoint{
 			AuthURL:  "https://github.com/login/oauth/authorize",
 			TokenURL: "https://github.com/login/oauth/access_token",
