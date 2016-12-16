@@ -19,18 +19,12 @@ test:
         - CGO_ENABLED=0 GOOS=linux go build -ldflags "-s" -a -installsuffix cgo
         - cp gitcat $CIRCLE_ARTIFACTS/
 
-# deployment:
-#     dev:
-#         branch: go
-#         commands:
-#             - docker login -e $DOCKER_EMAIL -u $DOCKER_USER -p $DOCKER_PASS
-#             - docker build -t surycat/gitcat:go .
-#             - docker push surycat/gitcat:go
-#     release:
-#         tag: /[0-9]+(\.[0-9]+){2}/
-#         commands:
-#             - docker login -e $DOCKER_EMAIL -u $DOCKER_USER -p $DOCKER_PASS
-#             - docker build -t surycat/gitcat:latest .
-#             - docker tag surycat/gitcat:latest surycat/gitcat:$CIRCLE_TAG
-#             - docker push surycat/gitcat:latest
-#             - docker push surycat/gitcat:$CIRCLE_TAG
+ deployment:
+     release:
+         tag: /[0-9]+(\.[0-9]+){2}/
+         commands:
+             - docker login -e $DOCKER_EMAIL -u $DOCKER_USER -p $DOCKER_PASS
+             - docker build -t surycat/gitcat:latest .
+             - docker tag surycat/gitcat:latest surycat/gitcat:$CIRCLE_TAG
+             - docker push surycat/gitcat:latest
+             - docker push surycat/gitcat:$CIRCLE_TAG
