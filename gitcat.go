@@ -2,10 +2,12 @@ package main
 
 import (
 	"encoding/json"
+	"flag"
 	"fmt"
 	"log"
 	"os"
 
+	"github.com/google/uuid"
 	"github.com/valyala/fasthttp"
 	"golang.org/x/net/context"
 	"golang.org/x/oauth2"
@@ -16,11 +18,20 @@ type TokenArgs struct {
 	Code  string `json:code`
 }
 
+const ()
+
 var (
+	flagPort  = flag.String("port", "8080", "Server port")
+	appKey    = os.Getenv("GITHUB_APP_KEY")
+	appSecret = os.Getenv("GITHUB_APP_SECRET")
+
 	config oauth2.Config
-	key    string
+	appID  uuid.UUID
 )
 
+// OAuth signin step 1
+// [Backend] Requests authentication URL to Github.
+// [Frontend] Redirects the user to the authentication URL.
 func githubAuthHandler(ctx *fasthttp.RequestCtx) {
 	url := config.AuthCodeURL("state", oauth2.AccessTypeOffline)
 	url = fmt.Sprintf("{\"url\":\"%s\"}", url)
@@ -28,11 +39,18 @@ func githubAuthHandler(ctx *fasthttp.RequestCtx) {
 	ctx.SetBody([]byte(url))
 }
 
+// OAuth signin step 2
+// [Github] Redirects the user to a callback URL with a code as param.
+// [Backend] Handles the callback (rewrite).
 func githubRedirect(ctx *fasthttp.RequestCtx) {
 	args := ctx.QueryArgs()
 	ctx.Redirect(fmt.Sprintf("/#/?%s", args.String()), fasthttp.StatusMovedPermanently)
 }
 
+// OAuth signin step 3
+// [Frontend] Uses callback data to request token.
+// [Backend] Requests final token.
+// [Frontend] Uses token to perform authorized requests to Github.
 func githubTokenHandler(ctx *fasthttp.RequestCtx) {
 	args := TokenArgs{}
 	json.Unmarshal(ctx.PostBody(), &args)
@@ -47,6 +65,12 @@ func githubTokenHandler(ctx *fasthttp.RequestCtx) {
 	ctx.SetBody([]byte(fmt.Sprintf("{\"token\":\"%s\"}", token.AccessToken)))
 }
 
+// Returns the Github's app ID.
+func gitcatAppID(ctx *fasthttp.RequestCtx) {
+	ctx.SetContentType("application/json")
+	ctx.SetBody([]byte(fmt.Sprintf("{\"gitcat_id\":\"%s\"}", appID.String())))
+}
+
 func CORS(next fasthttp.RequestHandler) fasthttp.RequestHandler {
 	return func(ctx *fasthttp.RequestCtx) {
 		ctx.Response.Header.Set("Access-Control-Allow-Credentials", "true")
@@ -58,9 +82,11 @@ func CORS(next fasthttp.RequestHandler) fasthttp.RequestHandler {
 }
 
 func main() {
+	flag.Parse()
+	appID = uuid.NewSHA1(uuid.NameSpaceOID, []byte(appKey))
 	config = oauth2.Config{
-		ClientID:     os.Getenv("GITHUB_APP_KEY"),
-		ClientSecret: os.Getenv("GITHUB_APP_SECRET"),
+		ClientID:     appKey,
+		ClientSecret: appSecret,
 		Scopes:       []string{"read:org,repo"},
 		Endpoint: oauth2.Endpoint{
 			AuthURL:  "https://github.com/login/oauth/authorize",
@@ -93,7 +119,7 @@ func main() {
 		case "/api/app":
 			switch string(ctx.Method()) {
 			case "GET":
-				log.Print("Not yet")
+				gitcatAppID(ctx)
 			default:
 				ctx.SetStatusCode(fasthttp.StatusMethodNotAllowed)
 			}
@@ -101,8 +127,12 @@ func main() {
 			fsHandler(ctx)
 		}
 	}
-	log.Print("Listening on :8080...")
-	log.Fatal(fasthttp.ListenAndServe(":8080", CORS(requestHandler)))
+
+	log.Printf("Listening on %s", *flagPort)
+	log.Fatal(fasthttp.ListenAndServe(
+		fmt.Sprintf(":%s", *flagPort),
+		CORS(requestHandler)),
+	)
 
 	// // Start HTTP server.
 	// if len(*addr) > 0 {

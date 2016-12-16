@@ -9,4 +9,4 @@ services:
         env_file:
             - config.env
         volumes:
-            - ./:/home/
+            - ./gitcat:/home/gitcat
