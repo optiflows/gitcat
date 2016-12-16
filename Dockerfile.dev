@@ -1,0 +1,16 @@
+FROM alpine:3.4
+
+ENV GITHUB_APP_KEY ''
+ENV GITHUB_APP_SECRET ''
+ENV GOPATH /go
+ENV PATH $GOPATH/bin:/usr/local/go/bin:$PATH
+
+RUN apk add --no-cache git go build-base ca-certificates
+
+WORKDIR /home/
+COPY ./gitcat.go ./gitcat.go
+RUN go get -v -d ./...  && \
+    go build gitcat.go
+
+EXPOSE 80
+CMD ./gitcat -port 80

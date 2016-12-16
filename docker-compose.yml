@@ -3,10 +3,13 @@ version: "2"
 services:
     gitcat:
         container_name: gitcat
-        build: ./
+        build:
+          context: ./
+          dockerfile: Dockerfile.dev
         ports:
-            - 8080:80
+            - 8888:80
         env_file:
             - config.env
         volumes:
-            - ./gitcat:/home/gitcat
+            - ./gitcat.go:/home/gitcat.go
+            - ./webapp/:/home/webapp/
