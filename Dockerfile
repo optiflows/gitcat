@@ -12,4 +12,5 @@ RUN set -ex  && \
 WORKDIR /home
 COPY ./ ./
 
+EXPOSE 80
 CMD ./gitcat -port 80

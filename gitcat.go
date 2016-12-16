@@ -58,7 +58,6 @@ func githubRedirect(ctx *fasthttp.RequestCtx) {
 func githubTokenHandler(ctx *fasthttp.RequestCtx) {
 	args := TokenArgs{}
 	json.Unmarshal(ctx.PostBody(), &args)
-	// state := string(args.Peek("state"))
 	token, err := config.Exchange(context.Background(), args.Code)
 	if err != nil {
 		log.Print(err)
@@ -69,7 +68,7 @@ func githubTokenHandler(ctx *fasthttp.RequestCtx) {
 	ctx.SetBody([]byte(fmt.Sprintf("{\"token\":\"%s\"}", token.AccessToken)))
 }
 
-// Returns the Github's app ID.
+// Returns this Gitcat's app ID.
 func gitcatAppID(ctx *fasthttp.RequestCtx) {
 	ctx.SetContentType("application/json")
 	ctx.SetBody([]byte(fmt.Sprintf("{\"gitcat_id\":\"%s\"}", appID.String())))
@@ -91,6 +90,7 @@ func main() {
 	}
 
 	flag.Parse()
+	// Generate this Gitcat app ID
 	appID = uuid.NewSHA1(uuid.NameSpaceOID, []byte(appKey))
 	config = oauth2.Config{
 		ClientID:     appKey,
