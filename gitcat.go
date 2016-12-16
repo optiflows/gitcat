@@ -18,12 +18,15 @@ type TokenArgs struct {
 	Code  string `json:code`
 }
 
-const ()
+const (
+	APPKEY    = "GITHUB_APP_KEY"
+	APPSECRET = "GITHUB_APP_SECRET"
+)
 
 var (
 	flagPort  = flag.String("port", "8080", "Server port")
-	appKey    = os.Getenv("GITHUB_APP_KEY")
-	appSecret = os.Getenv("GITHUB_APP_SECRET")
+	appKey    = os.Getenv(APPKEY)
+	appSecret = os.Getenv(APPSECRET)
 
 	config oauth2.Config
 	appID  uuid.UUID
@@ -82,6 +85,10 @@ func CORS(next fasthttp.RequestHandler) fasthttp.RequestHandler {
 }
 
 func main() {
+	if (appKey == "") || (appSecret == "") {
+		log.Fatalf("Environment variables must be set: %s, %s", APPKEY, APPSECRET)
+	}
+
 	flag.Parse()
 	appID = uuid.NewSHA1(uuid.NameSpaceOID, []byte(appKey))
 	config = oauth2.Config{
@@ -133,24 +140,4 @@ func main() {
 		fmt.Sprintf(":%s", *flagPort),
 		CORS(requestHandler)),
 	)
-
-	// // Start HTTP server.
-	// if len(*addr) > 0 {
-	// 	log.Printf("Starting HTTP server on %q", *addr)
-	// 	go func() {
-	// 		if err := fasthttp.ListenAndServe(*addr, requestHandler); err != nil {
-	// 			log.Fatalf("error in ListenAndServe: %s", err)
-	// 		}
-	// 	}()
-	// }
-
-	// // Start HTTPS server.
-	// if len(*addrTLS) > 0 {
-	// 	log.Printf("Starting HTTPS server on %q", *addrTLS)
-	// 	go func() {
-	// 		if err := fasthttp.ListenAndServeTLS(*addrTLS, *certFile, *keyFile, requestHandler); err != nil {
-	// 			log.Fatalf("error in ListenAndServeTLS: %s", err)
-	// 		}
-	// 	}()
-	// }
 }
