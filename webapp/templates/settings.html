@@ -4,7 +4,8 @@
         <md-autocomplete class="search"
             md-search-text="self.search"
             md-items="repo in self.query(self.search)"
-            md-item-text="repo"
+            md-item-text="repo.name"
+            md-selected-item-change="repo && (self.filter = repo.owner.login)"
             placeholder="Filter by repository">
             <md-item-template>
                 <span md-highlight-text="self.search" md-highlight-flags="^i">{{repo.full_name}}</span>
