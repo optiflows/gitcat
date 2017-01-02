@@ -1,4 +1,4 @@
-function DashboardCtrl($cookies, $http, $window, $location, APPID) {
+function DashboardCtrl($cookies, $http, $window, $location, $timeout, APPID) {
 
     /*
      * Controller attributes
@@ -67,6 +67,13 @@ function DashboardCtrl($cookies, $http, $window, $location, APPID) {
         }
     };
 
+    self.tag = function(repo, tag) {
+        self.diff[repo].semver.target = tag;
+        self.diff[repo].semver.pending = $timeout(function() {
+            console.log('Push tag ' + self.diff[repo].semver.target + ' to ' + repo);
+        }, 3000);
+    };
+
 
     /*
      * Entrypoint
@@ -101,7 +108,7 @@ function DashboardCtrl($cookies, $http, $window, $location, APPID) {
                     angular.extend(res.data, {
                         last_tag: tag,
                         repository: repo,
-                        local: {semver: false, new_tag: null}
+                        semver: semver(tag)
                     });
                     self.diff[repo] = res.data;
                     done();

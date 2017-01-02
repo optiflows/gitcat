@@ -103,24 +103,24 @@
                     </div>
                 </div>
 
-                <div class="semver" ng-if="self.diff[repo].commits.length"
-                     ng-click="$event.stopPropagation()">
-                    <div class="message">
-                        {{self.diff[repo].local}}
-                    </div>
-                    <div class="action">
-                        <md-button class="md-raised">
-                            <md-icon md-svg-src="../images/git-flame.svg"></md-icon>
-                            <span>Major</span>
-                        </md-button>
-                        <md-button class="md-raised">
-                            <md-icon md-svg-src="../images/git-pin.svg"></md-icon>
-                            <span>Minor</span>
-                        </md-button>
-                        <md-button class="md-raised">
-                            <md-icon md-svg-src="../images/git-bug.svg"></md-icon>
-                            <span>Patch</span>
-                        </md-button>
+                <div class="semver" ng-if="self.diff[repo].semver" ng-click="$event.stopPropagation()">
+                    <md-button class="md-raised" ng-click="self.tag(repo, self.diff[repo].semver.nextPatch())"
+                               ng-mouseenter="self.message = 'Targeted version is ' + self.diff[repo].semver.nextPatch()">
+                        <md-icon md-svg-src="../images/git-bug.svg"></md-icon>
+                        <span>Patch</span>
+                    </md-button>
+                    <md-button class="md-raised" ng-click="self.tag(repo, self.diff[repo].semver.nextMinor())"
+                               ng-mouseenter="self.message = 'Targeted version is ' + self.diff[repo].semver.nextMinor()">
+                        <md-icon md-svg-src="../images/git-pin.svg"></md-icon>
+                        <span>Minor</span>
+                    </md-button>
+                     <md-button class="md-raised" ng-click="self.tag(repo, self.diff[repo].semver.nextMajor())"
+                                ng-mouseenter="self.message = 'Targeted version is ' + self.diff[repo].semver.nextMajor()">
+                        <md-icon md-svg-src="../images/git-flame.svg"></md-icon>
+                        <span>Major</span>
+                    </md-button>
+                    <div class="message" flex>
+                        {{self.message}}
                     </div>
                 </div>
             </div>

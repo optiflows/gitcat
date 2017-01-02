@@ -332,6 +332,17 @@ a {
 
 .dashboard .repo .details .semver {
     margin-top: 15px;
+    display: flex;
+    flex-direction: row-reverse;
+}
+
+.dashboard .repo .details .semver .message {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    padding-right: 15px;
+    opacity: 0;
+    color: #ffffff;
 }
 
 .dashboard .repo .details .semver .md-button {
@@ -339,8 +350,12 @@ a {
     line-height: 25px;
     min-height: 25px;
     font-size: 11px;
-    margin: 0 0 5px 0;
+    margin: 0 0 5px 5px;
     background-color: #ded1c1;
+}
+
+.dashboard .repo .details .semver .md-button:hover ~ .message {
+    opacity: 1;
 }
 
 .dashboard .repo .details .semver .md-button md-icon {
