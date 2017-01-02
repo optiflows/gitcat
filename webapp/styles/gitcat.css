@@ -330,6 +330,28 @@ a {
     display: none;
 }
 
+.dashboard .repo .details .semver {
+    margin-top: 15px;
+}
+
+.dashboard .repo .details .semver .md-button {
+    min-width: 60px;
+    line-height: 25px;
+    min-height: 25px;
+    font-size: 11px;
+    margin: 0 0 5px 0;
+    background-color: #ded1c1;
+}
+
+.dashboard .repo .details .semver .md-button md-icon {
+    height: 16px;
+    width: 16px;
+}
+
+.dashboard .repo .details .semver .md-button span {
+    margin-right: 3px;
+}
+
 .dashboard .repos .vanilla {
     height: calc(100vh - 245px);
     min-height: 250px;

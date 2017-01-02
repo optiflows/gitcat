@@ -100,7 +100,8 @@ function DashboardCtrl($cookies, $http, $window, $location, APPID) {
                 self.request('GET', path).then(function(res) {
                     angular.extend(res.data, {
                         last_tag: tag,
-                        repository: repo
+                        repository: repo,
+                        local: {semver: false, new_tag: null}
                     });
                     self.diff[repo] = res.data;
                     done();
