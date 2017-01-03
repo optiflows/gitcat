@@ -68,12 +68,22 @@ function DashboardCtrl($cookies, $http, $window, $location, $timeout, APPID) {
     };
 
     self.tag = function(repo, tag) {
-        self.diff[repo].semver.target = tag;
-        self.diff[repo].semver.pending = $timeout(function() {
-            console.log('Push tag ' + self.diff[repo].semver.target + ' to ' + repo);
-        }, 3000);
+        var semver = self.diff[repo].semver;
+        semver.target = tag;
+        semver.timer = semver.timer != undefined ? semver.timer : 6;
+        if(--semver.timer <= 0) {
+            console.log('Push tag ' + tag + ' to ' + repo);
+            semver.timer = undefined;
+        } else {
+            semver.promise = $timeout(function() { self.tag(repo, tag) }, 1000);
+        }
     };
 
+    self.cancelTag = function(repo) {
+        var semver = self.diff[repo].semver;
+        $timeout.cancel(semver.promise);
+        semver.timer = undefined;
+    };
 
     /*
      * Entrypoint

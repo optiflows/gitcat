@@ -336,7 +336,8 @@ a {
     flex-direction: row-reverse;
 }
 
-.dashboard .repo .details .semver .message {
+.dashboard .repo .details .semver .message,
+.dashboard .repo .details .semver .pending {
     display: flex;
     align-items: center;
     justify-content: flex-end;
@@ -354,6 +355,7 @@ a {
     background-color: #ded1c1;
 }
 
+.dashboard .repo .details .semver .pending,
 .dashboard .repo .details .semver .md-button:hover ~ .message {
     opacity: 1;
 }

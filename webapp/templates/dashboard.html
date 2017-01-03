@@ -104,23 +104,34 @@
                 </div>
 
                 <div class="semver" ng-if="self.diff[repo].semver" ng-click="$event.stopPropagation()">
-                    <md-button class="md-raised" ng-click="self.tag(repo, self.diff[repo].semver.nextPatch())"
-                               ng-mouseenter="self.message = 'Targeted version is ' + self.diff[repo].semver.nextPatch()">
+                    <md-button ng-if="!self.diff[repo].semver.timer" class="md-raised"
+                               ng-click="self.tag(repo, self.diff[repo].semver.nextPatch())"
+                               ng-mouseenter="self.diff[repo].semver.target = self.diff[repo].semver.nextPatch()">
                         <md-icon md-svg-src="../images/git-bug.svg"></md-icon>
                         <span>Patch</span>
                     </md-button>
-                    <md-button class="md-raised" ng-click="self.tag(repo, self.diff[repo].semver.nextMinor())"
-                               ng-mouseenter="self.message = 'Targeted version is ' + self.diff[repo].semver.nextMinor()">
+                    <md-button ng-if="!self.diff[repo].semver.timer" class="md-raised"
+                               ng-click="self.tag(repo, self.diff[repo].semver.nextMinor())"
+                               ng-mouseenter="self.diff[repo].semver.target = self.diff[repo].semver.nextMinor()">
                         <md-icon md-svg-src="../images/git-pin.svg"></md-icon>
                         <span>Minor</span>
                     </md-button>
-                     <md-button class="md-raised" ng-click="self.tag(repo, self.diff[repo].semver.nextMajor())"
-                                ng-mouseenter="self.message = 'Targeted version is ' + self.diff[repo].semver.nextMajor()">
+                    <md-button ng-if="!self.diff[repo].semver.timer" class="md-raised"
+                               ng-click="self.tag(repo, self.diff[repo].semver.nextMajor())"
+                               ng-mouseenter="self.diff[repo].semver.target = self.diff[repo].semver.nextMajor()">
                         <md-icon md-svg-src="../images/git-flame.svg"></md-icon>
                         <span>Major</span>
                     </md-button>
-                    <div class="message" flex>
-                        {{self.message}}
+                    <md-button ng-if="self.diff[repo].semver.timer"
+                               class="md-raised" ng-click="self.cancelTag(repo)">
+                        <md-icon md-svg-src="../images/git-cancel.svg"></md-icon>
+                        <span>Cancel</span>
+                    </md-button>
+                    <div class="message" flex ng-if="!self.diff[repo].semver.timer">
+                        Create tag {{self.diff[repo].semver.target}}
+                    </div>
+                    <div class="pending" flex ng-if="self.diff[repo].semver.timer">
+                        Tag {{self.diff[repo].semver.target}} will be created in {{self.diff[repo].semver.timer}} seconds...
                     </div>
                 </div>
             </div>
