@@ -13,7 +13,6 @@ http://<gitcat_instance_domain>:<port>/api/auth
 ```
 * Keep your _Client ID_ and _Client Secret_ keys.
 
-
 ### 2. Gitcat
 
 #### Docker
@@ -26,8 +25,12 @@ Run a Gitcat container with the following environment variables:
 
 ```bash
 go get -d -v ./...
-# Build a statically linked binary
-CGO_ENABLED=0 GOOS=linux go build -a -installsuffix cgo
 go build
 GITHUB_APP_KEY=xxx GITHUB_APP_SECRET=xxx ./gitcat -port 8888
+```
+
+If using the executable on another system, build a statically linked binary.
+
+```bash
+CGO_ENABLED=0 GOOS=linux go build -a -installsuffix cgo
 ```
