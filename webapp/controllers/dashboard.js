@@ -70,10 +70,23 @@ function DashboardCtrl($cookies, $http, $window, $location, $timeout, APPID) {
     self.tag = function(repo, tag) {
         var semver = self.diff[repo].semver;
         semver.target = tag;
-        semver.timer = semver.timer != undefined ? semver.timer : 6;
+        semver.timer = semver.timer != undefined ? semver.timer : 4;
+
+        // End of the timer
         if(--semver.timer <= 0) {
-            console.log('Push tag ' + tag + ' to ' + repo);
-            semver.timer = undefined;
+            var last = self.diff[repo].commits.length - 1;
+            var data = {
+                "ref": "refs/tags/" + tag,
+                "sha": self.diff[repo].commits[last].sha
+            };
+
+            // Push the tag on the last commit
+            var path = '/repos/' + repo + '/git/refs';
+            self.request('POST', path, data).then(function() {
+                loadRepo(repo, function() {  semver.timer = undefined;  });
+            }).catch(function(err) {
+                console.error("Can't create tag in '" + repo + "'");
+            });
         } else {
             semver.promise = $timeout(function() { self.tag(repo, tag) }, 1000);
         }
@@ -88,6 +101,30 @@ function DashboardCtrl($cookies, $http, $window, $location, $timeout, APPID) {
     /*
      * Entrypoint
      */
+
+    var loadRepo = function(repo, callback) {
+        var path = '/repos/' + repo + '/git/refs/tags';
+        self.request('GET', path).then(function(res) {
+            var index = res.data.length ? res.data.length - 1 : -1;
+            if(index < 0) { done(); return; }
+
+            var tag = res.data[index].ref.substring(10);
+            // Compare commits between the last tag and HEAD
+            path = '/repos/' + repo + '/compare/' + tag + '...HEAD';
+            self.request('GET', path).then(function(res) {
+                angular.extend(res.data, {
+                    last_tag: tag,
+                    repository: repo,
+                    semver: semver(tag)
+                });
+                self.diff[repo] = res.data;
+                callback && callback();
+            });
+        }).catch(function(err) {
+            callback && callback();
+            console.error("Can't load '" + repo + "' info");
+        });
+    };
 
     var loadRepos = function() {
         var counter = 0;
@@ -105,28 +142,7 @@ function DashboardCtrl($cookies, $http, $window, $location, $timeout, APPID) {
 
         self.loading = true;
         angular.forEach(self.repos, function(repo) {
-            // Get last tag for the repo
-            var path = '/repos/' + repo + '/git/refs/tags';
-            self.request('GET', path).then(function(res) {
-                var index = res.data.length ? res.data.length - 1 : -1;
-                if(index < 0) { done(); return; }
-
-                var tag = res.data[index].ref.substring(10);
-                // Compare commits between the last tag and HEAD
-                path = '/repos/' + repo + '/compare/' + tag + '...HEAD';
-                self.request('GET', path).then(function(res) {
-                    angular.extend(res.data, {
-                        last_tag: tag,
-                        repository: repo,
-                        semver: semver(tag)
-                    });
-                    self.diff[repo] = res.data;
-                    done();
-                });
-            }).catch(function(err) {
-                done();
-                console.error("Can't load '" + repo + "' info");
-            });
+            loadRepo(repo, done);
         });
     };
 
