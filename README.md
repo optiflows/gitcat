@@ -34,3 +34,10 @@ If using the executable on another system, build a statically linked binary.
 ```bash
 CGO_ENABLED=0 GOOS=linux go build -a -installsuffix cgo
 ```
+
+#### Docker compose (dev)
+
+You can also run a dev environment with docker-compose:
+```bash
+docker-compose up -d
+```
