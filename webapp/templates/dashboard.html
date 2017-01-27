@@ -72,7 +72,7 @@
                     <md-icon md-svg-src="../images/git-repo.svg"></md-icon>
                     {{repo}}
                     <md-icon md-svg-src="../images/git-link.svg"
-                             ng-click="self.hrefRepo($event, repo)">
+                             ng-click="self.hrefRepo(repo, $event)">
                     </md-icon>
                 </span>
                 <div class="info">
@@ -98,7 +98,7 @@
                     <div class="message" flex>
                         {{commit.commit.message}}
                     </div>
-                    <div class="sha" ng-click="$event.stopPropagation(); self.href(commit.html_url, true);">
+                    <div class="sha" ng-click="self.href(commit.html_url, true, $event)">
                         <md-icon md-svg-src="../images/git-link.svg"></md-icon>
                         {{commit.sha.substring(0, 7)}}
                     </div>

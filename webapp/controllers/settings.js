@@ -26,7 +26,8 @@ function SettingsCtrl($cookies, $http, $window, $location, APPID) {
         $location.url('/');
     };
 
-    self.href = function(url, fork) {
+    self.href = function(url, fork, event) {
+        event && event.stopPropagation();
         if(fork) {
             $window.open(url, '_blank');
         } else {
@@ -34,8 +35,8 @@ function SettingsCtrl($cookies, $http, $window, $location, APPID) {
         }
     };
 
-    self.hrefRepo = function(e, repo) {
-        e.stopPropagation();
+    self.hrefRepo = function(repo, event) {
+        event && event.stopPropagation();
         self.href('https://github.com/' + repo.full_name, true);
     };
 
