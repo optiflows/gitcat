@@ -19,6 +19,10 @@ app.config(['$routeProvider', function($routeProvider) {
     });
 }]);
 
+app.config(['$mdAriaProvider', function($mdAriaProvider) {
+    $mdAriaProvider.disableWarnings();
+}]);
+
 app.controller('MainCtrl', MainCtrl);
 app.controller('DashboardCtrl', DashboardCtrl);
 app.controller('SettingsCtrl', SettingsCtrl);

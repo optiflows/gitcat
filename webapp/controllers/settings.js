@@ -73,7 +73,7 @@ function SettingsCtrl($cookies, $http, $window, $location, APPID) {
     };
 
     self.save = function() {
-        if(!self.gist.local) { return; }
+        if(!self.gist || !self.gist.local) { return; }
         var name = 'gitcat-' + APPID.substring(0, 8) + '.json';
         var content = {};
         content[name] = {content: JSON.stringify(self.config)};
