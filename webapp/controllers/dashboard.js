@@ -88,7 +88,10 @@ function DashboardCtrl($cookies, $http, $window, $location, $timeout, APPID) {
             // Push the tag on the last commit
             var path = '/repos/' + repo + '/git/refs';
             self.request('POST', path, data).then(function() {
-                loadRepo(repo, function() {  semver.timer = undefined;  });
+                loadRepo(repo, function() {
+                    semver.timer = undefined;
+                    _.remove(self.outdated, function(out) { return out == repo; });
+                });
             }).catch(function(err) {
                 console.error("Can't create tag in '" + repo + "'");
             });
