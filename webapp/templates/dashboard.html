@@ -69,9 +69,11 @@
              ng-class="{'selected': self.details == repo}">
             <div class="simple" layout="row" layout-align="space-between center">
                 <span class="name">
-                    <md-icon md-svg-src="../images/git-link.svg"
-                             ng-click="self.hrefRepo($event, repo)"></md-icon>
+                    <md-icon md-svg-src="../images/git-repo.svg"></md-icon>
                     {{repo}}
+                    <md-icon md-svg-src="../images/git-link.svg"
+                             ng-click="self.hrefRepo($event, repo)">
+                    </md-icon>
                 </span>
                 <div class="info">
                     <span class="since" ng-if="self.diff[repo] && self.diff[repo].ahead_by">
@@ -88,8 +90,7 @@
             </div>
             <div class="details" ng-show="self.details == repo && self.diff[repo] && self.diff[repo].ahead_by">
                 <div ng-repeat="commit in self.diff[repo].commits" class="commit"
-                     layout="row" layout-align="space-between center"
-                     ng-click="$event.stopPropagation(); self.href(commit.html_url, true);">
+                     layout="row" layout-align="space-between center">
                     <div class="author">
                         <md-tooltip md-direction="left">{{commit.author.login}}</md-tooltip>
                         <img ng-src="{{commit.author.avatar_url}}"/>
@@ -97,7 +98,7 @@
                     <div class="message" flex>
                         {{commit.commit.message}}
                     </div>
-                    <div class="sha">
+                    <div class="sha" ng-click="$event.stopPropagation(); self.href(commit.html_url, true);">
                         <md-icon md-svg-src="../images/git-link.svg"></md-icon>
                         {{commit.sha.substring(0, 7)}}
                     </div>

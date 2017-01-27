@@ -249,9 +249,10 @@ a {
     font-size: 18px;
 }
 
-.dashboard .name md-icon:hover,
-.settings .name md-icon:hover {
+.dashboard .repo:not(:hover) .name md-icon:last-child,
+.settings .repo:not(:hover) .name md-icon:last-child {
     fill: #E0E0E0;
+    display: none;
 }
 
 .dashboard .repos .empty,

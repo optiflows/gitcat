@@ -65,9 +65,11 @@
              ng-class="{'selected': self.config.whitelist.indexOf(repo.full_name) >= 0}">
             <div class="simple" layout="row" layout-align="space-between center">
                 <span class="name">
-                    <md-icon md-svg-src="../images/git-link.svg"
-                             ng-click="self.hrefRepo($event, repo)"></md-icon>
+                    <md-icon md-svg-src="../images/git-repo.svg"></md-icon>
                     {{repo.name}}
+                    <md-icon md-svg-src="../images/git-link.svg"
+                             ng-click="self.hrefRepo($event, repo)">
+                    </md-icon>
                 </span>
                 <div class="info">
                     <md-icon md-svg-src="../images/git-check.svg"></md-icon>
