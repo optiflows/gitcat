@@ -34,9 +34,9 @@ function SettingsCtrl($cookies, $http, $window, $location, APPID) {
         }
     };
 
-    self.hrefRepo = function(repo) {
-        var url = 'https://github.com/' + repo.full_name;
-        self.href(url, true);
+    self.hrefRepo = function(e, repo) {
+        e.stopPropagation();
+        self.href('https://github.com/' + repo.full_name, true);
     };
 
     self.request = function(method, path, data) {

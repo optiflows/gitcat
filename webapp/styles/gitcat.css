@@ -249,9 +249,9 @@ a {
     font-size: 18px;
 }
 
-.dashboard .repo .name:not(:hover) md-icon:last-child,
-.settings .repo .name:not(:hover) md-icon:last-child {
-    display: none;
+.dashboard .name md-icon:hover,
+.settings .name md-icon:hover {
+    fill: #E0E0E0;
 }
 
 .dashboard .repos .empty,
@@ -386,9 +386,6 @@ a {
 
 .dashboard .repos .vanilla .alert md-icon:not(.inline) {
     margin-top: -50px;
-}
-
-.dashboard .repos .vanilla .alert md-icon:not(.inline) {
     width: 110px;
     height: 110px;
     padding-bottom: 10px;

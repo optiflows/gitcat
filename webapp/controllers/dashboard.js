@@ -36,7 +36,8 @@ function DashboardCtrl($cookies, $http, $window, $location, $timeout, APPID) {
         }
     };
 
-    self.hrefRepo = function(repo) {
+    self.hrefRepo = function(e, repo) {
+        e.stopPropagation();
         self.href('https://github.com/' + repo, true);
     };
 
