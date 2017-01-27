@@ -42,10 +42,13 @@ function DashboardCtrl($cookies, $http, $window, $location, $timeout, APPID) {
 
     self.request = function(method, path, data) {
         return $http({
-            method: method,
-            url: API + path,
-            headers: {'Authorization': 'token ' + TOKEN},
-            data: data
+            method : method,
+            url : API + path,
+            headers : {
+                'Authorization' : 'token ' + TOKEN,
+                'If-Modified-Since' : new Date()
+            },
+            data : data
         });
     };
 

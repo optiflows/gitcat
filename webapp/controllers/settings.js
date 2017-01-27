@@ -43,7 +43,10 @@ function SettingsCtrl($cookies, $http, $window, $location, APPID) {
         return $http({
             method: method,
             url: API + path,
-            headers: {'Authorization': 'token ' + TOKEN},
+            headers: {
+                'Authorization': 'token ' + TOKEN,
+                'If-Modified-Since' : new Date()
+            },
             data: data
         });
     };
