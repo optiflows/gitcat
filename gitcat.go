@@ -48,7 +48,12 @@ func githubAuthHandler(ctx *fasthttp.RequestCtx) {
 // [Backend] Handles the callback (rewrite).
 func githubRedirect(ctx *fasthttp.RequestCtx) {
 	args := ctx.QueryArgs()
-	ctx.Redirect(fmt.Sprintf("/#/?%s", args.String()), fasthttp.StatusMovedPermanently)
+	scheme := ctx.Request.Header.Peek("X-Forwarded-Proto")
+	if scheme == nil {
+		scheme = ctx.URI().Scheme()
+	}
+	url := fmt.Sprintf("%s://%s/#/?%s", scheme, ctx.URI().Host(), args.String())
+	ctx.Redirect(url, fasthttp.StatusMovedPermanently)
 }
 
 // OAuth signin step 3
