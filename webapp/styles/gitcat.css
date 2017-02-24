@@ -85,6 +85,10 @@ a {
     color: #ded1c1;
 }
 
+.header .search md-icon path {
+    fill: #ded1c1;
+}
+
 .header .user {
     background-color: #ded1c1;
 }
