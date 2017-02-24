@@ -89,7 +89,7 @@
                 </div>
             </div>
             <div class="details" ng-show="self.details == repo && self.diff[repo] && self.diff[repo].ahead_by">
-                <div ng-repeat="commit in self.diff[repo].commits" class="commit"
+                <div ng-repeat="commit in self.diff[repo].commits | orderBy:'$index':true" class="commit"
                      layout="row" layout-align="space-between center">
                     <div class="author">
                         <md-tooltip md-direction="left">{{commit.author.login}}</md-tooltip>
