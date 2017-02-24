@@ -110,7 +110,7 @@ func main() {
 	fs := &fasthttp.FS{
 		Root:               "./webapp",
 		IndexNames:         []string{"index.html"},
-		GenerateIndexPages: true,
+		GenerateIndexPages: false,
 		Compress:           false,
 		AcceptByteRange:    false,
 	}
