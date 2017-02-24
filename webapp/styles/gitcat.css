@@ -250,6 +250,8 @@ a {
     fill: #ded1c1;
     height: 16px;
     width: 16px;
+    min-height: 16px;
+    min-width: 16px;
 }
 
 .dashboard .repo .name,
@@ -326,6 +328,8 @@ a {
 .dashboard .repo .details .commit .sha md-icon {
     height: 12px;
     width: 12px;
+    min-height: 12px;
+    min-width: 12px;
     fill: #ffffff;
 }
 
@@ -379,6 +383,8 @@ a {
 .dashboard .repo .details .semver .md-button md-icon {
     height: 16px;
     width: 16px;
+    min-height: 16px;
+    min-width: 16px;
 }
 
 .dashboard .repo .details .semver .md-button span {
