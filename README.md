@@ -2,7 +2,7 @@
 
 Github-based release tool for multi-repository projects.
 
-* Gitcat is available at [gitcat.surycat.io](http://gitcat.surycat.io) (well... will be, very soon).
+* Gitcat is available at [gitcat.surycat.io](http://gitcat.surycat.io).
 * Gitcat can also be self-hosted.
 
 ![gif](https://github.com/optiflows/gitcat/blob/master/logo/demo.gif)

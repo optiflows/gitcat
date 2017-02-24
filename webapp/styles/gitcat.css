@@ -12,6 +12,17 @@ a {
     outline: none;
 }
 
+/*
+ * Fork me
+ */
+
+.ribbon {
+    position: absolute;
+    top: 0;
+    right: 0;
+    border: 0;
+}
+
 
 /*
  * Scrollbar
