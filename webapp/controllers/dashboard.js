@@ -125,6 +125,7 @@ function DashboardCtrl($cookies, $http, $window, $location, $timeout, APPID) {
                     repository: repo,
                     semver: semver(tag)
                 });
+                self.repos.push(repo);
                 self.diff[repo] = res.data;
                 callback && callback();
             });
@@ -134,7 +135,7 @@ function DashboardCtrl($cookies, $http, $window, $location, $timeout, APPID) {
         });
     };
 
-    var loadRepos = function() {
+    var loadRepos = function(list) {
         var counter = 0;
         var done = function() {
             self.loading = ++counter < self.repos.length;
@@ -147,9 +148,8 @@ function DashboardCtrl($cookies, $http, $window, $location, $timeout, APPID) {
                 });
             }
         };
-
         self.loading = true;
-        angular.forEach(self.repos, function(repo) {
+        angular.forEach(list, function(repo) {
             loadRepo(repo, done);
         });
     };
@@ -163,9 +163,9 @@ function DashboardCtrl($cookies, $http, $window, $location, $timeout, APPID) {
             if(gist) {
                 // Get config from user's Gists
                 $http.get(gist.files[name].raw_url).then(function(res) {
-                    self.repos = res.data.whitelist;
-                    if(self.repos.length) {
-                        loadRepos();
+                    var repos = res.data.whitelist;
+                    if(repos.length) {
+                        loadRepos(repos);
                     } else {
                         // Empty config
                         self.vanilla = true;
