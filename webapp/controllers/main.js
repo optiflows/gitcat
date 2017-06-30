@@ -1,4 +1,4 @@
-function MainCtrl($http, $window, $routeParams, $cookies, $location) {
+function MainCtrl($http, $window, $routeParams, AuthSrv) {
 
     /*
      * Controller attributes
@@ -22,8 +22,7 @@ function MainCtrl($http, $window, $routeParams, $cookies, $location) {
     this.authenticate = function(state, code) {
         var data = {state: state, code: code};
         $http.patch(this.api, data).then(function(res) {
-            $cookies.put('gitcat', res.data.token);
-            $location.url('/dashboard');
+            AuthSrv.login(res.data.token);
         }).catch(function(err) {
             console.error(err);
         });
@@ -39,5 +38,5 @@ function MainCtrl($http, $window, $routeParams, $cookies, $location) {
         this.requesting = true;
         this.authenticate(state, code);
     }
-
+    AuthSrv.autoLogin();
 }

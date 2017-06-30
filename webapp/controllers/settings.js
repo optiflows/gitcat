@@ -1,11 +1,11 @@
-function SettingsCtrl($cookies, $http, $window, $location, APPID) {
+function SettingsCtrl($http, $window, AuthSrv, APPID) {
 
     /*
      * Controller attributes
      */
 
     const API = 'https://api.github.com';
-    const TOKEN = $cookies.get('gitcat');
+    const TOKEN = AuthSrv.getToken();
 
     var self = this;
     self.user = {};
@@ -21,10 +21,7 @@ function SettingsCtrl($cookies, $http, $window, $location, APPID) {
      * Controller methods
      */
 
-    self.signout = function() {
-        $cookies.remove('gitcat');
-        $location.url('/');
-    };
+    self.signout = AuthSrv.logout;
 
     self.href = function(url, fork, event) {
         event && event.stopPropagation();

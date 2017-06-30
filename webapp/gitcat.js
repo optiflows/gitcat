@@ -23,6 +23,7 @@ app.config(['$mdAriaProvider', function($mdAriaProvider) {
     $mdAriaProvider.disableWarnings();
 }]);
 
+app.service('AuthSrv', AuthSrv);
 app.controller('MainCtrl', MainCtrl);
 app.controller('DashboardCtrl', DashboardCtrl);
 app.controller('SettingsCtrl', SettingsCtrl);
