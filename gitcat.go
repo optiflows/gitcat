@@ -1,14 +1,15 @@
 package main
 
 import (
-	"encoding/json"
 	"flag"
 	"fmt"
 	"log"
 	"os"
 
+	"github.com/go-siris/middleware/cors"
+	"github.com/go-siris/siris"
+	sContext "github.com/go-siris/siris/context"
 	"github.com/google/uuid"
-	"github.com/valyala/fasthttp"
 	"golang.org/x/net/context"
 	"golang.org/x/oauth2"
 )
@@ -36,60 +37,46 @@ var (
 // OAuth signin step 1
 // [Backend] Requests authentication URL to Github.
 // [Frontend] Redirects the user to the authentication URL.
-func githubAuthHandler(ctx *fasthttp.RequestCtx) {
-	url := config.AuthCodeURL("state", oauth2.AccessTypeOffline)
-	url = fmt.Sprintf("{\"url\":\"%s\"}", url)
-	ctx.SetContentType("application/json")
-	ctx.SetBody([]byte(url))
+func githubAuthHandler(ctx sContext.Context) {
+	ctx.JSON(map[string]string{
+		"url": config.AuthCodeURL("state", oauth2.AccessTypeOffline),
+	})
 }
 
 // OAuth signin step 2
 // [Github] Redirects the user to a callback URL with a code as param.
 // [Backend] Handles the callback (rewrite).
-func githubRedirect(ctx *fasthttp.RequestCtx) {
-	args := ctx.QueryArgs()
-	scheme := ctx.Request.Header.Peek("X-Forwarded-Proto")
-	if scheme == nil {
-		scheme = ctx.URI().Scheme()
-	}
-	url := fmt.Sprintf("%s://%s/#/?%s", scheme, ctx.URI().Host(), args.String())
-	ctx.Redirect(url, fasthttp.StatusMovedPermanently)
+func githubRedirect(ctx sContext.Context) {
+	ctx.Redirect(fmt.Sprintf(
+		"%s/#/?%s",
+		ctx.GetHeader("Origin"),
+		ctx.Request().URL.RawQuery,
+	), siris.StatusMovedPermanently)
 }
 
 // OAuth signin step 3
 // [Frontend] Uses callback data to request token.
 // [Backend] Requests final token.
 // [Frontend] Uses token to perform authorized requests to Github.
-func githubTokenHandler(ctx *fasthttp.RequestCtx) {
-	args := TokenArgs{}
-	json.Unmarshal(ctx.PostBody(), &args)
+func githubTokenHandler(ctx sContext.Context) {
+	var args TokenArgs
+	ctx.ReadJSON(&args)
 	token, err := config.Exchange(context.Background(), args.Code)
 	if err != nil {
 		log.Print(err)
-		ctx.SetStatusCode(fasthttp.StatusBadRequest)
+		ctx.StatusCode(siris.StatusBadRequest)
 		return
 	}
-	ctx.SetContentType("application/json")
-	ctx.SetBody([]byte(fmt.Sprintf("{\"token\":\"%s\"}", token.AccessToken)))
+	ctx.JSON(map[string]string{"token": token.AccessToken})
 }
 
 // Returns this Gitcat's app ID.
-func gitcatAppID(ctx *fasthttp.RequestCtx) {
-	ctx.SetContentType("application/json")
-	ctx.SetBody([]byte(fmt.Sprintf("{\"gitcat_id\":\"%s\"}", appID.String())))
-}
-
-func CORS(next fasthttp.RequestHandler) fasthttp.RequestHandler {
-	return func(ctx *fasthttp.RequestCtx) {
-		ctx.Response.Header.Set("Access-Control-Allow-Credentials", "true")
-		ctx.Response.Header.Set("Access-Control-Allow-Headers", "authorization")
-		ctx.Response.Header.Set("Access-Control-Allow-Methods", "HEAD,GET,POST,PUT,DELETE,OPTIONS")
-		ctx.Response.Header.Set("Access-Control-Allow-Origin", "*")
-		next(ctx)
-	}
+func gitcatAppID(ctx sContext.Context) {
+	ctx.JSON(map[string]string{"gitcat_id": appID.String()})
 }
 
 func main() {
+	flag.Parse()
 	if (appKey == "") || (appSecret == "") {
 		log.Fatalf("Environment variables must be set: %s, %s", APPKEY, APPSECRET)
 	}
@@ -107,43 +94,25 @@ func main() {
 		},
 	}
 
-	fs := &fasthttp.FS{
-		Root:               "./webapp",
-		IndexNames:         []string{"index.html"},
-		GenerateIndexPages: false,
-		Compress:           false,
-		AcceptByteRange:    false,
-	}
-	fsHandler := fs.NewRequestHandler()
+	corsMiddle := cors.New(cors.Options{
+		AllowedOrigins:   []string{"*"},
+		AllowCredentials: true,
+	})
 
-	requestHandler := func(ctx *fasthttp.RequestCtx) {
-		switch string(ctx.Path()) {
-		case "/api/auth":
-			switch string(ctx.Method()) {
-			case "GET":
-				githubRedirect(ctx)
-			case "POST":
-				githubAuthHandler(ctx)
-			case "PATCH":
-				githubTokenHandler(ctx)
-			default:
-				ctx.SetStatusCode(fasthttp.StatusMethodNotAllowed)
-			}
-		case "/api/app":
-			switch string(ctx.Method()) {
-			case "GET":
-				gitcatAppID(ctx)
-			default:
-				ctx.SetStatusCode(fasthttp.StatusMethodNotAllowed)
-			}
-		default:
-			fsHandler(ctx)
-		}
+	app := siris.New()
+	app.Use(corsMiddle)
+	app.SPA(app.StaticHandler("./webapp", false, false))
+	app.Get("/", func(ctx sContext.Context) {
+		ctx.ServeFile("./webapp/index.html", false)
+	})
+	// app.StaticWeb("/static", "./webapp")
+	auth := app.Party("/api/auth")
+	{
+		auth.Get("", githubRedirect)
+		auth.Post("", githubAuthHandler)
+		auth.Patch("", githubTokenHandler)
 	}
-
-	log.Printf("Listening on %s", *flagPort)
-	log.Fatal(fasthttp.ListenAndServe(
-		fmt.Sprintf(":%s", *flagPort),
-		CORS(requestHandler)),
-	)
+	app.Get("/api/app", gitcatAppID)
+	// log.Printf("Listening on %s", *flagPort)
+	app.Run(siris.Addr(fmt.Sprintf(":%s", *flagPort)))
 }
