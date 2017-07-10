@@ -1,16 +1,8 @@
 machine:
     services:
         - docker
-    environment:
-        GOVERSION: "1.7.4"
-        GOTAR: "go$GOVERSION.linux-amd64.tar.gz"
 
 dependencies:
-    pre:
-        - mkdir -p ~/.go_workspace/go
-        - test -e ~/.go_workspace/go/$GOTAR || curl -o ~/.go_workspace/go/$GOTAR https://storage.googleapis.com/golang/$GOTAR
-        - sudo rm -rf /usr/local/go
-        - sudo tar -C /usr/local -xzf ~/.go_workspace/go/$GOTAR
     override:
         - go get -v -d ./...
 
