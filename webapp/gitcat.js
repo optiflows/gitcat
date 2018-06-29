@@ -22,6 +22,9 @@ app.config(['$routeProvider', function($routeProvider) {
 app.config(['$mdAriaProvider', function($mdAriaProvider) {
     $mdAriaProvider.disableWarnings();
 }]);
+app.config(['$locationProvider', function($locationProvider) {
+    $locationProvider.hashPrefix('');
+}]);
 
 app.service('AuthSrv', AuthSrv);
 app.controller('MainCtrl', MainCtrl);

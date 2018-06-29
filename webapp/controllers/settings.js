@@ -43,7 +43,7 @@ function SettingsCtrl($http, $window, AuthSrv, APPID) {
             url: API + path,
             headers: {
                 'Authorization': 'token ' + TOKEN,
-                'If-Modified-Since' : new Date()
+                'If-Modified-Since' : moment().toString()
             },
             data: data
         });
