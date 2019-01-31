@@ -1,4 +1,4 @@
-FROM alpine:3.4
+FROM alpine:3.9
 
 ENV GITHUB_APP_KEY ''
 ENV GITHUB_APP_SECRET ''
