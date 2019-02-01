@@ -26,6 +26,7 @@ jobs:
           command: |
             docker push $CONTAINER:head
             docker tag $CONTAINER:head $CONTAINER:latest
+            docker push $CONTAINER:latest
 
 workflows:
   version: 2
